@@ -1,29 +1,23 @@
-import json
+"""Base class for delivery agents using the OpenAI Agents SDK."""
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
+
+from openai_agents import Agent
+from openai_agents.tracing import Trace, traceable
 
 
-class BaseAgent:
-    """Simple agent that loads a prompt and produces templated output."""
+class BaseAgent(Agent):
+    """Agent initialized with a prompt template and basic tracing."""
 
     def __init__(self, name: str, prompt_path: Path):
-        self.name = name
-        with open(prompt_path) as f:
-            content = f.read()
-        # very naive YAML parsing for `prompt:` key
-        if content.startswith('prompt:'):
-            self.prompt = content.split('\n', 1)[1].lstrip()
-        else:
-            self.prompt = content
-        self.trace = []
+        instructions = Path(prompt_path).read_text()
+        super().__init__(name=name, instructions=instructions)
+        self.trace = Trace(name)
 
     def record(self, step: str, output: Any):
-        self.trace.append({'step': step, 'output': output})
+        """Record an event in the trace."""
+        self.trace.add_event(step, output)
 
-    def save_output(self, path: Path, output: Any):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, 'w') as f:
-            json.dump(output, f, indent=2)
-
+    @traceable
     def run(self, *args, **kwargs):
         raise NotImplementedError
