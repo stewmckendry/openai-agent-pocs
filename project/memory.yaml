@@ -10,3 +10,15 @@
   - workflow
   last_updated: '2025-06-25'
   pod_owner: ResearchPod
+- path: AGENTS.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/AGENTS.md
+  file_type: md
+  description: Guide for developing and organizing OpenAI Agent Proof of Concepts,
+    including repo structure, naming conventions, and development practices.
+  tags:
+  - agents
+  - prompts
+  - workflows
+  - development
+  last_updated: '2025-06-25'
+  pod_owner: DevPod
