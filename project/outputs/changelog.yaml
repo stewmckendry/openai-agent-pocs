@@ -28,3 +28,13 @@
   task_id: init
   committed_by: GPTPod
   message: Memory update related to task_guides/task_000_project_plan.md
+- timestamp: '2025-06-25T20:38:33.641688'
+  path: task_guides/task_001_poc_definitions.md
+  task_id: init
+  committed_by: GPTPod
+  message: Define PoCs for SDK showcase including agent variants, flows, and features
+- timestamp: '2025-06-25T20:38:33.641688'
+  path: project/memory.yaml
+  task_id: init
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_001_poc_definitions.md
