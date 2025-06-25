@@ -49,3 +49,9 @@
   committed_by: GPTPod
   message: Refine PoC definitions with Garmin input, search agent flow, feedback loop,
     and human+AI focus
+- timestamp: '2025-06-25T20:52:23.095696'
+  path: AGENTS.md
+  task_id: init
+  committed_by: GPTPod
+  message: Update AGENTS.md with revised folder structure, human-in-the-loop practices,
+    and SDK link
