@@ -96,3 +96,15 @@
   - poc
   last_updated: '2025-06-25'
   pod_owner: DeliveryPod
+- path: task_guides/task_101b_delivery_agents_patch.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101b_delivery_agents_patch.md
+  file_type: md
+  description: Guide for implementing and refining AI delivery team agents using the
+    OpenAI Agents SDK, focusing on creating autonomous and traceable agent workflows.
+  tags:
+  - agents
+  - sdk
+  - delivery
+  - traceability
+  last_updated: '2025-06-25'
+  pod_owner: DeliveryPod
