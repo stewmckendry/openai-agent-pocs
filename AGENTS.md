@@ -41,6 +41,13 @@ Each task should include:
 - **OpenAI/Gemini**: for model-agnostic design
 - **Python**: fastapi for tool servers if needed
 
+## 🔗 Key References
+
+- SDK Docs: https://github.com/openai/openai-agents-python/tree/main/docs
+- Examples: https://github.com/openai/openai-agents-python/tree/main/examples
+- Tracing: https://github.com/openai/openai-agents-python/blob/main/docs/tracing.md
+- Visualization: https://github.com/openai/openai-agents-python/blob/main/docs/visualization.md
+
 ## 📦 Setup
 
 Install all packages:
