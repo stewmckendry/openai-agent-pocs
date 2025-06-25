@@ -4,7 +4,7 @@ Welcome to the **Codex Agent workspace** for the OpenAI Agent PoCs supporting th
 
 ---
 
-## 🗂️ Repo Structure (Updated)
+## 🗂️ Repo Structure
 
 | Folder                       | Purpose                                                 |
 |------------------------------|---------------------------------------------------------|
@@ -27,6 +27,11 @@ Each task should include:
 - Logs + trace validation
 - Agent flow visual
 - Prompt usage
+- CLI/hosted UI compatibility
+- `main.py` header with:
+  - File requirements (e.g. place sample Garmin run to `data/garmin_sample.json`)
+  - How to run locally via CLI
+  - Optional: Deployment setup (Railway CLI or Streamlit)
 
 ## 📦 Setup
 ```bash
@@ -43,10 +48,5 @@ pip install -r requirements.txt
 - Work on `main` unless sandboxing a risky change
 - Commit only files tied to a task
 - Keep human feedback + agent traceability central
-
-## 🧱 Dev Practices
-- Use MCP validation
-- Human-AI interaction at each stage
-- Enable CLI + minimal hosted UI for experimentation
 
 Let’s build AI that builds *with* us — for good.
