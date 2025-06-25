@@ -37,6 +37,18 @@ This agent flow simulates a human-led, AI-supported delivery team. Each agent is
 
 ---
 
+### ♻️ Enhancements to Implement
+
+To fully showcase the OpenAI Agent SDK:
+
+- Add an `EvaluatorAgent` that reviews intermediate outputs (e.g. stories) and signals if changes are needed.
+- Use **MCP schemas** to validate the structure of outputs exchanged between agents (e.g., user story format, deployment spec).
+- Extend `POReviewAgent` to **optionally use the OpenAI WebSearch tool** to reference similar features, practices, or design standards.
+
+Make these capabilities observable through the agent trace and visualize their role in the workflow.
+
+---
+
 ### 📂 Files to Create
 - `agents/poc_1_delivery/*.py`
 - `tools/*.py` as needed
