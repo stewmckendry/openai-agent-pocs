@@ -1,0 +1,12 @@
+- path: README.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/README.md
+  file_type: md
+  description: Documentation for Proof-of-Concept implementations using OpenAI Agents
+    SDK, accompanying a blog series on AI and human co-creation.
+  tags:
+  - PoC
+  - agent
+  - OpenAI
+  - workflow
+  last_updated: '2025-06-25'
+  pod_owner: ResearchPod
