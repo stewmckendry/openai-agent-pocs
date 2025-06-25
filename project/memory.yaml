@@ -22,3 +22,15 @@
   - development
   last_updated: '2025-06-25'
   pod_owner: DevPod
+- path: task_guides/task_000_project_plan.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_000_project_plan.md
+  file_type: md
+  description: Initial project plan for executing multiple Proofs-of-Concept using
+    the OpenAI Agent SDK, aligned with blog goals.
+  tags:
+  - project plan
+  - PoC
+  - OpenAI Agent SDK
+  - task guide
+  last_updated: '2025-06-25'
+  pod_owner: DeliveryPod
