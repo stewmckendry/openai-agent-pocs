@@ -72,3 +72,15 @@
   - orchestration
   last_updated: '2025-06-25'
   pod_owner: DeliveryPod
+- path: task_guides/task_103_navigator_agent.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_103_navigator_agent.md
+  file_type: md
+  description: Guide for building an AI agent to assist newcomers to Canada with custom
+    onboarding steps using a structured workflow.
+  tags:
+  - agent
+  - workflow
+  - onboarding
+  - AI
+  last_updated: '2025-06-25'
+  pod_owner: DeliveryPod
