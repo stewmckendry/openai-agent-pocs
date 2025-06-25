@@ -4,75 +4,49 @@ Welcome to the **Codex Agent workspace** for the OpenAI Agent PoCs supporting th
 
 ---
 
-## 🗂️ Repo Structure (Proposed)
+## 🗂️ Repo Structure (Updated)
 
-| Folder               | Purpose                                             |
-|----------------------|-----------------------------------------------------|
-| `agents/`            | All OpenAI Agent SDK implementations                |
-| `tools/`             | Code function tools for agents                      |
-| `prompts/`           | Prompt YAMLs or Jinja templates                    |
-| `workflows/`         | Reusable agent workflows (orchestrators, chains)   |
-| `resources/`         | Schemas, config, and MCP metadata                  |
-| `data/`              | Sample inputs or mock data for testing             |
-| `scripts/`           | Scripted tests, runners or deployment utilities    |
-| `task_guides/`       | Prompts and guides for development tasks           |
-
-## 🔁 Naming Conventions
-
-- Tasks: `task_guides/task_<ID>_<desc>.md`
-- Workflows: `workflows/<topic>_<step>.py`
-- Agents: `agents/<agent_name>.py`
-- Tools: `tools/<function_name>.py`
+| Folder                       | Purpose                                                 |
+|------------------------------|---------------------------------------------------------|
+| `agents/poc_1_delivery/`     | Agents for Delivery Team PoC                           |
+| `agents/poc_2_run_coach/`    | Agents for Run Coach PoC                               |
+| `agents/poc_3_newcomer/`     | Agents for Newcomer Guide PoC                          |
+| `tools/`                     | Shared code tools across PoCs                          |
+| `prompts/`                   | Shared prompt templates (YAML/Jinja)                   |
+| `workflows/`                 | Shared orchestrators and chain definitions             |
+| `resources/`                 | MCP resources, schemas, validation files               |
+| `data/`                      | Sample run data, mock search results, configs          |
+| `scripts/`                   | CLI runners, test utilities, deployment setup          |
+| `task_guides/`               | Task prompts and reviews                               |
 
 ## ✅ Agent Checklists
 
 Each task should include:
 - Input/output specs
-- Sample inputs and outputs
-- Function logic with logs
-- Prompt or tool usage
-- Tracing verification
-- Agent flow visualizations (if applicable)
-
-## ⚙️ Technologies
-
-- **OpenAI Agents SDK**: core framework for agent workflows
-- **Model Context Protocol (MCP)**: standardize model inputs/outputs
-- **OpenAI/Gemini**: for model-agnostic design
-- **Python**: fastapi for tool servers if needed
-
-## 🔗 Key References
-
-- SDK Docs: https://github.com/openai/openai-agents-python/tree/main/docs
-- Examples: https://github.com/openai/openai-agents-python/tree/main/examples
-- Tracing: https://github.com/openai/openai-agents-python/blob/main/docs/tracing.md
-- Visualization: https://github.com/openai/openai-agents-python/blob/main/docs/visualization.md
+- Mock input or real data
+- Logs + trace validation
+- Agent flow visual
+- Prompt usage
 
 ## 📦 Setup
-
-Install all packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-Add secrets via `.env`, example provided in `.env-example`
+## 🔗 SDK References
+- Docs: https://github.com/openai/openai-agents-python/tree/main/docs
+- Examples: https://github.com/openai/openai-agents-python/tree/main/examples
+- Tracing: https://github.com/openai/openai-agents-python/blob/main/docs/tracing.md
+- Visualization: https://github.com/openai/openai-agents-python/blob/main/docs/visualization.md
 
 ## 🤝 Coordination
+- Work on `main` unless sandboxing a risky change
+- Commit only files tied to a task
+- Keep human feedback + agent traceability central
 
-Agents should:
-- Work on `main` branch unless specified
-- Commit only files linked to your task
-- Reference `task_guides` for clear requirements
-- Use logs + trace processors to aid debugging
+## 🧱 Dev Practices
+- Use MCP validation
+- Human-AI interaction at each stage
+- Enable CLI + minimal hosted UI for experimentation
 
----
-
-## 🧱 Development Practices
-
-- Use structured logs and trace metadata
-- Modularize and document each tool/agent
-- Reuse components across PoCs
-- Use MCP resource loading helpers for schema/input validation
-- Visualize agent steps where possible
-
-Let’s build AI that builds with us — for good.
+Let’s build AI that builds *with* us — for good.
