@@ -38,3 +38,8 @@
   task_id: init
   committed_by: GPTPod
   message: Memory update related to task_guides/task_001_poc_definitions.md
+- timestamp: '2025-06-25T20:39:05.361028'
+  path: AGENTS.md
+  task_id: init
+  committed_by: GPTPod
+  message: Update AGENTS.md with SDK references and PoC coordination guidance
