@@ -84,3 +84,15 @@
   - AI
   last_updated: '2025-06-25'
   pod_owner: DeliveryPod
+- path: task_guides/task_002_sdk_features_mapping.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_002_sdk_features_mapping.md
+  file_type: md
+  description: Document mapping SDK features to Proof of Concepts (PoCs) and identifying
+    feature coverage, gaps, and recommendations.
+  tags:
+  - sdk
+  - features
+  - mapping
+  - poc
+  last_updated: '2025-06-25'
+  pod_owner: DeliveryPod
