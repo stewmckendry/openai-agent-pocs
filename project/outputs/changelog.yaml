@@ -100,3 +100,14 @@
   task_id: doc_update
   committed_by: GPTPod
   message: Clarify agent run instructions and `main.py` comments in AGENTS.md
+- timestamp: '2025-06-25T21:29:39.435924'
+  path: task_guides/task_101b_delivery_agents_patch.md
+  task_id: task_101b_patch
+  committed_by: GPTPod
+  message: 'Add Task 101b: Patch for delivery team agents to enforce use of OpenAI
+    Agent SDK and actual output generation'
+- timestamp: '2025-06-25T21:29:39.435924'
+  path: project/memory.yaml
+  task_id: task_101b_patch
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_101b_delivery_agents_patch.md
