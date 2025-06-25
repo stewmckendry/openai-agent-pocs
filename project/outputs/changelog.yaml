@@ -95,3 +95,8 @@
   task_id: analysis_sdk_coverage
   committed_by: GPTPod
   message: Memory update related to task_guides/task_002_sdk_features_mapping.md
+- timestamp: '2025-06-25T21:03:10.671206'
+  path: AGENTS.md
+  task_id: doc_update
+  committed_by: GPTPod
+  message: Clarify agent run instructions and `main.py` comments in AGENTS.md
