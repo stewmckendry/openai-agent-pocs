@@ -18,7 +18,7 @@ from pathlib import Path
 import sys
 import logging
 
-from agents_pocs.poc_1_delivery.user_story_lead_manager import UserStoryLeadManager
+from agent_pocs.poc_1_delivery.user_story_lead_manager import UserStoryLeadManager
 from openai_agents.tracing import draw_graph
 
 
