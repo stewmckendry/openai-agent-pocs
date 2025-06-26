@@ -1,0 +1,12 @@
+- path: task_guides/task_104b_user_story_trace_writer.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_104b_user_story_trace_writer.md
+  file_type: md
+  description: Guide to extending a user story agent pipeline with tracing, output
+    chaining, and a new story writer agent, including visualization and logging enhancements.
+  tags:
+  - agent
+  - tracing
+  - output
+  - visualization
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
