@@ -1,14 +1,17 @@
 """Delivery Lead agent and helpers.
 
-This module orchestrates the user story workflow by running three
-sub-agents sequentially: ``functional_agent``, ``technical_agent``, and
-``user_story_writer_agent``. The final output is a full user story
-produced by ``user_story_writer_agent``.
+This module orchestrates the user story workflow by delegating to
+specialized sub-agents in sequence. The pipeline generates UX,
+functional, technical, acceptance, impact, and estimation results before
+drafting the final user story and verifying it against the Definition of
+Ready (DoR). All intermediate results are returned in a structured
+``UserStoryPipelineOutput`` model.
 """
 
 from __future__ import annotations
 
 from rich.console import Console
+from pydantic import BaseModel
 
 from agents import Agent, Runner, gen_trace_id, trace
 from agents.extensions.visualization import draw_graph
@@ -49,6 +52,19 @@ delivery_lead_agent = Agent(
 )
 
 
+class UserStoryPipelineOutput(BaseModel):
+    """Aggregate results from the delivery lead workflow."""
+
+    ux: UXSpec
+    functional: FunctionalSpec
+    technical: TechnicalSpec
+    acceptance: AcceptanceCriteria
+    impact: ImpactSummary
+    estimate: StoryPointEstimate
+    story: UserStory
+    dor: DoRCheck
+
+
 class DeliveryLeadManager:
     """Orchestrates the sequential user story generation workflow."""
 
@@ -57,7 +73,7 @@ class DeliveryLeadManager:
         self.printer = Printer(self.console)
         self.max_dor_iterations = max_dor_iterations
 
-    async def run(self, feature: str) -> UserStory:
+    async def run(self, feature: str) -> UserStoryPipelineOutput:
         trace_id = gen_trace_id()
         with trace("user_story_pipeline", trace_id=trace_id):
             self.printer.update_item(
@@ -154,7 +170,16 @@ class DeliveryLeadManager:
                         self.printer.update_item("dor", "DoR passed", is_done=True)
 
             self.printer.end()
-            return story
+            return UserStoryPipelineOutput(
+                ux=ux,
+                functional=functional,
+                technical=technical,
+                acceptance=acceptance,
+                impact=impact,
+                estimate=estimate,
+                story=story,
+                dor=dor,
+            )
 
 
 def visualize_workflow(filename: str | None = None):
