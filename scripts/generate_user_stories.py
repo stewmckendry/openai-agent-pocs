@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """CLI to generate user stories from a feature idea."""
 import argparse
+import asyncio
 import json
 from pathlib import Path
 import sys
@@ -17,18 +18,17 @@ from openai_agents import Runner
 from openai_agents.tracing import draw_graph
 
 
-def main():
+async def main() -> None:
     parser = argparse.ArgumentParser(description="Generate DoR user stories")
     parser.add_argument("feature", nargs="?", help="Feature summary text")
     parser.add_argument("--out", default="project/outputs", help="Output directory")
     args = parser.parse_args()
 
     feature = args.feature or input("Enter feature summary: ")
-    lead = UserStoryLeadAgent()
-    runner = Runner(lead)
-    trace = runner.run({"feature": feature})
-    results = runner.get_result()
-    typed_output = results.final_output_as(IntegrationCheck)
+    lead_agent = UserStoryLeadAgent()
+    result = await Runner.run(lead_agent, {"feature": feature})
+    typed_output = result.final_output_as(IntegrationCheck)
+    trace = result.trace
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -50,4 +50,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
