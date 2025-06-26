@@ -20,7 +20,7 @@ import logging
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from agents.poc_1_delivery import UserStoryLeadManager
+from agents.poc_1_delivery.user_story_lead_manager import UserStoryLeadManager
 from openai_agents.tracing import draw_graph
 
 
