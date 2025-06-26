@@ -30,6 +30,12 @@ if str(ROOT_DIR) not in sys.path:
 
 print("sys.path:", sys.path)
 
+import os
+print("Current working directory:", os.getcwd())
+print("agents package exists:", os.path.exists("agents"))
+print("poc_1_delivery exists:", os.path.exists("agents/poc_1_delivery"))
+print("user_story_lead_manager.py exists:", os.path.exists("agents/poc_1_delivery/user_story_lead_manager.py"))
+
 from agents.poc_1_delivery.user_story_lead_manager import UserStoryLeadManager
 from openai_agents.tracing import draw_graph
 
