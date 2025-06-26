@@ -16,7 +16,7 @@ from .deliverylead import delivery_lead_agent
 
 
 async def main() -> None:
-    feature = sys.stdin.read().strip() or input("Enter a feature description: ")
+    feature = input("Enter a feature description: ")
     result = await Runner.run(delivery_lead_agent, feature)
     print("\n--- Technical Specification ---\n")
     print(result.final_output.spec)
