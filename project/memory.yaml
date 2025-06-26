@@ -22,3 +22,16 @@
   - user story
   last_updated: '2025-06-26'
   pod_owner: DeliveryPod
+- path: task_guides/task_104d_user_story_ui_and_hosting.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_104d_user_story_ui_and_hosting.md
+  file_type: md
+  description: Guide for building and deploying a web UI and backend API for testing
+    a user story generation pipeline, including deployment instructions for Railway
+    and Vercel.
+  tags:
+  - ui
+  - deployment
+  - api
+  - web
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
