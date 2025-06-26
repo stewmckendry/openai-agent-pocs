@@ -17,9 +17,9 @@ from .deliverylead import DeliveryLeadManager, visualize_workflow
 async def main() -> None:
     feature = input("Enter a feature description: ")
     mgr = DeliveryLeadManager()
-    story = await mgr.run(feature)
+    result = await mgr.run(feature)
     print("\n--- User Story ---\n")
-    print(story.story)
+    print(result.story.story)
 
     output_dir = Path(__file__).resolve().parent / "outputs"
     output_dir.mkdir(exist_ok=True)
@@ -28,7 +28,24 @@ async def main() -> None:
     with open(story_file, "w", encoding="utf-8") as f:
         f.write("# Feature Input\n")
         f.write(feature + "\n\n")
-        f.write(story.story)
+
+        f.write("# User Story\n")
+        f.write(result.story.story + "\n\n")
+
+        f.write("# UX Spec\n")
+        f.write(result.ux.spec + "\n\n")
+
+        f.write("# Functional Spec\n")
+        f.write(result.functional.spec + "\n\n")
+
+        f.write("# Technical Spec\n")
+        f.write(result.technical.spec + "\n\n")
+
+        f.write("# Acceptance Criteria\n")
+        f.write(result.acceptance.criteria + "\n\n")
+
+        f.write("# Impact Assessment\n")
+        f.write(result.impact.summary + "\n")
 
     visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
 
