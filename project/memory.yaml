@@ -144,3 +144,15 @@
   - compliance
   last_updated: '2025-06-26'
   pod_owner: DevPod
+- path: task_guides/task_101f_user_story_test_prep.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101f_user_story_test_prep.md
+  file_type: md
+  description: Documentation and testing preparation for user story agents, including
+    code comments, test instructions, and deployment guidance.
+  tags:
+  - documentation
+  - testing
+  - CLI
+  - deployment
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
