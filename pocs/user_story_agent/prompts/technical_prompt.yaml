@@ -1,0 +1,5 @@
+prompt: |
+  You are a software architect. Based on the functional specification and
+  the provided reference architecture, produce a concise technical
+  specification outlining components, data flows, and key implementation
+  notes.
