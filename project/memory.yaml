@@ -156,3 +156,15 @@
   - deployment
   last_updated: '2025-06-26'
   pod_owner: DeliveryPod
+- path: task_guides/task_101g_user_story_handoff_graph.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101g_user_story_handoff_graph.md
+  file_type: md
+  description: Guide to refactor user story agents for agentic flow using handoffs,
+    aligning with OpenAI Agent SDK best practices.
+  tags:
+  - refactor
+  - agent
+  - flow
+  - SDK
+  last_updated: '2025-06-26'
+  pod_owner: DevPod
