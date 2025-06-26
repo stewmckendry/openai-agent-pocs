@@ -11,7 +11,7 @@ from .story_estimation_agent import StoryEstimationAgent
 from .dor_review_agent import DoRReviewAgent
 from .impact_assessment_agent import ImpactAssessmentAgent
 from .tech_context_agent import TechContextAgent
-from .integration_check_agent import IntegrationCheckAgent
+from .integration_check_agent import IntegrationCheckAgent, IntegrationCheck
 
 
 class UserStoryLeadAgent(Agent):
@@ -33,6 +33,8 @@ class UserStoryLeadAgent(Agent):
         super().__init__(
             name="UserStoryLead",
             instructions=instructions,
+            model="gpt-4o",
+            output_type=IntegrationCheck,
             tools=[self.generate],
             handoffs=[self.context],
         )

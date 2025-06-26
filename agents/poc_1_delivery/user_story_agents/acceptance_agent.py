@@ -13,6 +13,7 @@ class AcceptanceCriteriaAgent(Agent):
         super().__init__(
             name="AcceptanceCriteria",
             instructions=instructions,
+            model="gpt-4o",
             output_type=AcceptanceCriteria,
             handoffs=[next_agent] if next_agent else [],
         )

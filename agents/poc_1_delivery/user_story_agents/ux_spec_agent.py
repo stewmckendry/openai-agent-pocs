@@ -14,6 +14,7 @@ class UXSpecAgent(Agent):
         super().__init__(
             name="UXSpec",
             instructions=instructions,
+            model="gpt-4o",
             output_type=UXSpec,
             handoffs=[next_agent] if next_agent else [],
         )

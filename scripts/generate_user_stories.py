@@ -10,6 +10,9 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from agents.poc_1_delivery.user_story_agents.user_story_lead_agent import (
     UserStoryLeadAgent,
 )
+from agents.poc_1_delivery.user_story_agents.integration_check_agent import (
+    IntegrationCheck,
+)
 from openai_agents import Runner
 from openai_agents.tracing import draw_graph
 
@@ -25,11 +28,12 @@ def main():
     runner = Runner(lead)
     trace = runner.run({"feature": feature})
     results = runner.get_result()
+    typed_output = results.final_output_as(IntegrationCheck)
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
     with open(out_dir / "stories.json", "w") as f:
-        json.dump(results, f, indent=2)
+        f.write(typed_output.json(indent=2))
     with open(out_dir / "trace.json", "w") as f:
         json.dump(trace.serialize(), f, indent=2)
     with open(out_dir / "trace_graph.txt", "w") as f:
@@ -42,7 +46,7 @@ def main():
     except Exception:
         pass
 
-    print(json.dumps(results, indent=2))
+    print(typed_output.json(indent=2))
 
 
 if __name__ == "__main__":

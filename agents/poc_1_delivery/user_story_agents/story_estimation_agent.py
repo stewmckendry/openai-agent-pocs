@@ -15,6 +15,8 @@ class StoryEstimationAgent(Agent):
         super().__init__(
             name="StoryEstimation",
             instructions=instructions,
+            model="gpt-4o",
+            output_type=StoryEstimate,
             tools=[self.estimate],
             handoffs=[next_agent] if next_agent else [],
         )

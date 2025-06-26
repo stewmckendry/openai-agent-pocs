@@ -13,6 +13,7 @@ class TechSpecAgent(Agent):
         super().__init__(
             name="TechSpec",
             instructions=instructions,
+            model="gpt-4o",
             output_type=TechSpec,
             handoffs=[next_agent] if next_agent else [],
         )
