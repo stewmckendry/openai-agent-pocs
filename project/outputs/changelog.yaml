@@ -145,3 +145,14 @@
   committed_by: GPTPod
   message: Patch Task 101c to disallow SDK wrappers and enforce direct SDK usage and
     visualization imports
+- timestamp: '2025-06-26T01:29:02.645060'
+  path: task_guides/task_101e_user_story_sdk_refactor.md
+  task_id: task_101e_sdk_fix
+  committed_by: GPTPod
+  message: 'Add Task 101e: Refactor user story agents to align with OpenAI Agents
+    SDK implementation patterns'
+- timestamp: '2025-06-26T01:29:02.645060'
+  path: project/memory.yaml
+  task_id: task_101e_sdk_fix
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_101e_user_story_sdk_refactor.md
