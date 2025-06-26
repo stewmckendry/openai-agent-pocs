@@ -52,9 +52,10 @@ delivery_lead_agent = Agent(
 class DeliveryLeadManager:
     """Orchestrates the sequential user story generation workflow."""
 
-    def __init__(self) -> None:
+    def __init__(self, max_dor_iterations: int = 5) -> None:
         self.console = Console()
         self.printer = Printer(self.console)
+        self.max_dor_iterations = max_dor_iterations
 
     async def run(self, feature: str) -> UserStory:
         trace_id = gen_trace_id()
@@ -127,15 +128,28 @@ class DeliveryLeadManager:
                 self.printer.update_item("story", "Story drafted", is_done=True)
 
             passes = False
-            while not passes:
+            iterations = 0
+            feedback = ""
+            while not passes and iterations < self.max_dor_iterations:
                 with trace("dor_verification"):
                     self.printer.update_item("dor", "Checking DoR...")
-                    dor_result = await Runner.run(dor_verifier_agent, story.story)
+                    dor_input = story.story
+                    if feedback:
+                        dor_input += f"\n\nPrevious feedback:\n{feedback}"
+                    dor_result = await Runner.run(dor_verifier_agent, dor_input)
                     dor = dor_result.final_output_as(DoRCheck)
                     passes = dor.passes
                     story.story = dor.story
-                    if not passes:
-                        self.printer.update_item("dor", "Story failed DoR, rewriting...")
+                    feedback = dor.feedback
+                    iterations += 1
+                    if not passes and iterations < self.max_dor_iterations:
+                        self.printer.update_item(
+                            "dor", f"Story failed DoR: {dor.feedback} Rewriting..."
+                        )
+                    elif not passes:
+                        self.printer.update_item(
+                            "dor", "Max DoR iterations reached", is_done=True
+                        )
                     else:
                         self.printer.update_item("dor", "DoR passed", is_done=True)
 
