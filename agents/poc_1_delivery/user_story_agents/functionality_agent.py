@@ -1,7 +1,6 @@
 from pathlib import Path
 from pydantic import BaseModel
 from openai_agents import Agent
-from openai_agents.tools import tool
 
 
 class FunctionalitySpec(BaseModel):
@@ -14,22 +13,6 @@ class FunctionalityAgent(Agent):
         super().__init__(
             name="Functionality",
             instructions=instructions,
-            tools=[self.generate_functionality],
+            output_type=FunctionalitySpec,
             handoffs=[next_agent] if next_agent else [],
         )
-
-    @tool
-    def generate_functionality(self, feature: str) -> FunctionalitySpec:
-        import openai
-
-        resp = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": self.instructions},
-                {"role": "user", "content": feature},
-            ],
-        )
-        content = resp.choices[0].message.content
-        return FunctionalitySpec(functions=content)
-
-    tools = [generate_functionality]
