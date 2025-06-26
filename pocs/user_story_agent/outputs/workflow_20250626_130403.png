@@ -1,0 +1,24 @@
+
+    digraph G {
+        graph [splines=true];
+        node [fontname="Arial"];
+        edge [penwidth=1.5];
+    "__start__" [label="__start__", shape=ellipse, style=filled, fillcolor=lightblue, width=0.5, height=0.3];"__end__" [label="__end__", shape=ellipse, style=filled, fillcolor=lightblue, width=0.5, height=0.3];"DeliveryLeadAgent" [label="DeliveryLeadAgent", shape=box, style=filled, fillcolor=lightyellow, width=1.5, height=0.8];"UXAgent" [label="UXAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"FunctionalSpecAgent" [label="FunctionalSpecAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"TechnicalSpecAgent" [label="TechnicalSpecAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"architecture" [label="architecture", shape=ellipse, style=filled, fillcolor=lightgreen, width=0.5, height=0.3];"AcceptanceCriteriaAgent" [label="AcceptanceCriteriaAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"ImpactAssessmentAgent" [label="ImpactAssessmentAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"read_backlog" [label="read_backlog", shape=ellipse, style=filled, fillcolor=lightgreen, width=0.5, height=0.3];"read_current_design" [label="read_current_design", shape=ellipse, style=filled, fillcolor=lightgreen, width=0.5, height=0.3];"read_code_sample" [label="read_code_sample", shape=ellipse, style=filled, fillcolor=lightgreen, width=0.5, height=0.3];"StorypointEstimatorAgent" [label="StorypointEstimatorAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"UserStoryWriterAgent" [label="UserStoryWriterAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"write_user_story" [label="write_user_story", shape=ellipse, style=filled, fillcolor=lightgreen, width=0.5, height=0.3];"DoRVerifierAgent" [label="DoRVerifierAgent", shape=box, style=filled, style=rounded, fillcolor=lightyellow, width=1.5, height=0.8];"__start__" -> "DeliveryLeadAgent";
+            "DeliveryLeadAgent" -> "UXAgent";"UXAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "FunctionalSpecAgent";"FunctionalSpecAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "TechnicalSpecAgent";
+        "TechnicalSpecAgent" -> "architecture" [style=dotted, penwidth=1.5];
+        "architecture" -> "TechnicalSpecAgent" [style=dotted, penwidth=1.5];"TechnicalSpecAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "AcceptanceCriteriaAgent";"AcceptanceCriteriaAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "ImpactAssessmentAgent";
+        "ImpactAssessmentAgent" -> "read_backlog" [style=dotted, penwidth=1.5];
+        "read_backlog" -> "ImpactAssessmentAgent" [style=dotted, penwidth=1.5];
+        "ImpactAssessmentAgent" -> "read_current_design" [style=dotted, penwidth=1.5];
+        "read_current_design" -> "ImpactAssessmentAgent" [style=dotted, penwidth=1.5];
+        "ImpactAssessmentAgent" -> "read_code_sample" [style=dotted, penwidth=1.5];
+        "read_code_sample" -> "ImpactAssessmentAgent" [style=dotted, penwidth=1.5];"ImpactAssessmentAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "StorypointEstimatorAgent";"StorypointEstimatorAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "UserStoryWriterAgent";
+        "UserStoryWriterAgent" -> "write_user_story" [style=dotted, penwidth=1.5];
+        "write_user_story" -> "UserStoryWriterAgent" [style=dotted, penwidth=1.5];"UserStoryWriterAgent" -> "__end__";
+            "DeliveryLeadAgent" -> "DoRVerifierAgent";"DoRVerifierAgent" -> "__end__";}
