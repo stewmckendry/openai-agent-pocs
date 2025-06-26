@@ -1,0 +1,6 @@
+id: str
+summary: str
+description: str
+acceptance_criteria:
+  - str
+estimate: int
