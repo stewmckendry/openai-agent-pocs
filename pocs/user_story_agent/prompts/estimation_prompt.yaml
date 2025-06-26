@@ -1,0 +1,2 @@
+prompt: |
+  You are a scrum master. Given the impact assessment, estimate the story points using the Fibonacci scale (1,2,3,5,8,13,21).
