@@ -8,6 +8,7 @@ from agents import Agent
 class DoRCheck(BaseModel):
     passes: bool
     story: str
+    feedback: str
 
 
 def _load_prompt() -> str:

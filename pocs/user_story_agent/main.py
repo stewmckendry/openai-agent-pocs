@@ -8,6 +8,8 @@ Requirements:
 """
 
 import asyncio
+from pathlib import Path
+from datetime import datetime
 
 from .deliverylead import DeliveryLeadManager, visualize_workflow
 
@@ -18,7 +20,17 @@ async def main() -> None:
     story = await mgr.run(feature)
     print("\n--- User Story ---\n")
     print(story.story)
-    visualize_workflow()
+
+    output_dir = Path(__file__).resolve().parent / "outputs"
+    output_dir.mkdir(exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    story_file = output_dir / f"story_{timestamp}.md"
+    with open(story_file, "w", encoding="utf-8") as f:
+        f.write("# Feature Input\n")
+        f.write(feature + "\n\n")
+        f.write(story.story)
+
+    visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
 
 
 if __name__ == "__main__":
