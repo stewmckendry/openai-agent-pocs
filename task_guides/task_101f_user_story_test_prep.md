@@ -5,7 +5,7 @@ Enhance code quality, reproducibility, and usability by documenting all componen
 ---
 
 ### 🧠 Context
-Once Task 101e completes the SDK refactor, this task ensures the system is easy to test, run, and understand.
+Once Task 101g completes the SDK refactor, this task ensures the system is easy to test, run, and understand.
 
 ---
 
@@ -76,7 +76,7 @@ OPENAI_API_KEY=your-api-key-here
   - Input arguments and validation errors
   - Key decision points or branching logic
   - Trace and handoff progression
-- Logging should output to both console and an optional `logs/agent_run.log` file (create directory if missing).
+- Logging should output to `logs/agent_run.log` file (create directory if missing).
 - Format logs as: `[LEVEL] [AgentName.ToolName] message`
 - Set default log level to INFO with a CLI option for DEBUG
 
