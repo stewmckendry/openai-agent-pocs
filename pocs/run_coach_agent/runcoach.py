@@ -1,6 +1,8 @@
 """RunCoachManager orchestrates the run coaching workflow."""
 
+from datetime import datetime
 from rich.console import Console
+from pydantic import BaseModel
 
 from agents import Agent
 from agents import Runner, gen_trace_id, trace
@@ -28,6 +30,15 @@ run_coach_agent = Agent(
 )
 
 
+class RunCoachPipelineOutput(BaseModel):
+    """Aggregate outputs from the run coach pipeline."""
+
+    goal: RaceGoal
+    runs: RunData
+    analysis: StatsAnalysis
+    plan: RacePlan
+
+
 class RunCoachManager:
     """Sequentially execute the run coach pipeline."""
 
@@ -35,7 +46,7 @@ class RunCoachManager:
         self.console = Console()
         self.printer = Printer(self.console)
 
-    async def run(self, goal_description: str) -> RacePlan:
+    async def run(self, goal_description: str) -> RunCoachPipelineOutput:
         trace_id = gen_trace_id()
         with trace("run_coach_pipeline", trace_id=trace_id):
             self.printer.update_item(
@@ -46,9 +57,12 @@ class RunCoachManager:
             )
             print(f"https://platform.openai.com/traces/trace?trace_id={trace_id}")
 
+            current_date = datetime.now().date().isoformat()
+
             with trace("goal"):
                 self.printer.update_item("goal", "Parsing goal...")
-                goal_result = await Runner.run(goal_agent, goal_description)
+                goal_input = f"current_date: {current_date}\nuser_input: {goal_description}"
+                goal_result = await Runner.run(goal_agent, goal_input)
                 goal = goal_result.final_output_as(RaceGoal)
                 self.printer.update_item("goal", str(goal), is_done=True)
 
@@ -83,7 +97,12 @@ class RunCoachManager:
                 self.printer.update_item("check", "Plan checked", is_done=True)
 
             self.printer.end()
-            return final_plan
+            return RunCoachPipelineOutput(
+                goal=goal,
+                runs=runs,
+                analysis=analysis,
+                plan=final_plan,
+            )
 
 
 def visualize_workflow(filename: str | None = None):

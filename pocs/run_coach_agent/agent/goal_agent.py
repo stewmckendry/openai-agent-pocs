@@ -1,8 +1,9 @@
 """GoalRaceAgent converts a free form race description into structured data."""
 
 from pathlib import Path
+from datetime import datetime
 from pydantic import BaseModel
-from agents import Agent
+from agents import Agent, function_tool
 
 
 class RaceGoal(BaseModel):
@@ -22,8 +23,15 @@ def _load_prompt() -> str:
     return "".join(lines[1:]).lstrip()
 
 
+@function_tool
+def get_current_date() -> str:
+    """Return today's date in ISO format."""
+    return datetime.now().date().isoformat()
+
+
 goal_agent = Agent(
     name="GoalRaceAgent",
     instructions=_load_prompt(),
+    tools=[get_current_date],
     output_type=RaceGoal,
 )
