@@ -2,3 +2,4 @@ openai-agents @ git+https://github.com/openai/openai-agents-python.git
 openai-agents[viz] @ git+https://github.com/openai/openai-agents-python.git
 openai
 pydantic
+rich
