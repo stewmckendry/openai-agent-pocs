@@ -120,3 +120,15 @@
   - delivery
   last_updated: '2025-06-26'
   pod_owner: DeliveryPod
+- path: task_guides/task_101d_user_story_agent.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101d_user_story_agent.md
+  file_type: md
+  description: Guide for implementing an agent system to generate DoR-compliant user
+    stories from user-provided features, focusing on high-impact delivery tasks.
+  tags:
+  - agent
+  - user story
+  - delivery
+  - orchestration
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
