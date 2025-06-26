@@ -42,3 +42,14 @@
   task_id: task_105_run_coach_init
   committed_by: GPTPod
   message: Memory update related to task_guides/task_105_run_coach_pipeline.md
+- timestamp: '2025-06-26T19:59:33.819607'
+  path: task_guides/task_105b_run_coach_enhancements.md
+  task_id: task_105b_racegoal_date_fix
+  committed_by: GPTPod
+  message: 'Add Task 105b: Fix GoalRaceAgent date accuracy using current date tool
+    and print all intermediate results in Markdown output'
+- timestamp: '2025-06-26T19:59:33.819607'
+  path: project/memory.yaml
+  task_id: task_105b_racegoal_date_fix
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_105b_run_coach_enhancements.md

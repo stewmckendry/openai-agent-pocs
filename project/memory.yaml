@@ -47,3 +47,16 @@
   - flow
   last_updated: '2025-06-26'
   pod_owner: DeliveryPod
+- path: task_guides/task_105b_run_coach_enhancements.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_105b_run_coach_enhancements.md
+  file_type: md
+  description: Enhancements to the GoalRaceAgent to improve race goal accuracy by
+    using current date context and better output formatting for improved transparency
+    and review.
+  tags:
+  - enhancement
+  - date-context
+  - output-formatting
+  - agent
+  last_updated: '2025-06-26'
+  pod_owner: DevPod
