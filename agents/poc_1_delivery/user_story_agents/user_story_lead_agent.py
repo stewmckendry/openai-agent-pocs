@@ -1,3 +1,10 @@
+"""
+Purpose: Orchestrate all agents to generate a complete user story
+Usage: Imported by agent runner or CLI
+Deployment: Used in CLI or hosted apps (e.g. Streamlit, Railway)
+Run: See `scripts/generate_user_stories.py`
+"""
+
 from __future__ import annotations
 
 from pydantic import BaseModel
@@ -6,6 +13,9 @@ from openai_agents import Runner, custom_span, gen_trace_id, trace
 from rich.console import Console
 
 from .printer import Printer
+import logging
+
+logger = logging.getLogger(__name__)
 
 from .tech_context_agent import TechContextAgent, TechContext
 from .ux_spec_agent import UXSpecAgent, UXSpec
@@ -36,6 +46,7 @@ class UserStoryLeadAgent:
     """Manager that orchestrates the user story generation flow."""
 
     def __init__(self) -> None:
+        logger.info("[UserStoryLeadAgent] start")
         self.console = Console()
         self.printer = Printer(self.console)
         self.context_agent = TechContextAgent()
@@ -50,6 +61,7 @@ class UserStoryLeadAgent:
 
     async def run(self, feature: str) -> UserStory:
         """Run the full user story workflow for the provided feature."""
+        logger.info("[UserStoryLeadAgent] run feature: %s", feature)
         trace_id = gen_trace_id()
         with trace("User story trace", trace_id=trace_id):
             self.printer.update_item(
@@ -114,6 +126,7 @@ class UserStoryLeadAgent:
             integration = int_res.final_output_as(IntegrationCheck)
 
             self.printer.end()
+            logger.info("[UserStoryLeadAgent] workflow complete")
 
         return UserStory(
             tech_context=context,

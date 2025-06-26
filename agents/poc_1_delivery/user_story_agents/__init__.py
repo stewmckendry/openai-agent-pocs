@@ -1,3 +1,10 @@
+"""
+Purpose: Collection of agents used by the user story workflow
+Usage: Imported by agent runner or CLI
+Deployment: Used in CLI or hosted apps (e.g. Streamlit, Railway)
+Run: See `scripts/generate_user_stories.py`
+"""
+
 from .user_story_lead_agent import UserStoryLeadAgent
 from .ux_spec_agent import UXSpecAgent
 from .functionality_agent import FunctionalityAgent
