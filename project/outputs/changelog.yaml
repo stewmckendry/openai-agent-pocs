@@ -64,3 +64,13 @@
   task_id: task_106_trip_planner_init
   committed_by: GPTPod
   message: Memory update related to task_guides/task_106_trip_planner_pipeline.md
+- timestamp: '2025-06-26T21:23:57.609599'
+  path: task_guides/task_106b_trip_guardrails.md
+  task_id: task_106b_trip_guardrails
+  committed_by: GPTPod
+  message: Add Task 106b to implement input and output guardrails for PoC3 TripPlannerAgent
+- timestamp: '2025-06-26T21:23:57.609599'
+  path: project/memory.yaml
+  task_id: task_106b_trip_guardrails
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_106b_trip_guardrails.md
