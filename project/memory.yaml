@@ -108,3 +108,15 @@
   - traceability
   last_updated: '2025-06-25'
   pod_owner: DeliveryPod
+- path: task_guides/task_101c_delivery_validation.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101c_delivery_validation.md
+  file_type: md
+  description: Guide for validating compliance of the PoC 1 Delivery Agent with the
+    OpenAI Agents SDK, including criteria and steps for validation.
+  tags:
+  - validation
+  - SDK
+  - compliance
+  - delivery
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
