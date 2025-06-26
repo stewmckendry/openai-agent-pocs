@@ -7,8 +7,7 @@ Run: See `scripts/generate_user_stories.py`
 
 from pathlib import Path
 from pydantic import BaseModel
-from agents import Agent
-from agents.tools import tool
+from agents import Agent, function_tool
 from tools.validate_dor import validate_dor
 import logging
 
@@ -32,7 +31,7 @@ class DoRReviewAgent(Agent):
             handoffs=[next_agent] if next_agent else [],
         )
 
-    @tool
+    @function_tool
     def review(self, story: dict) -> DoRReview:
         logger.debug("[DoRReviewAgent] review")
         ready = validate_dor(story)

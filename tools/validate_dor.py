@@ -5,14 +5,12 @@ Deployment: Used in CLI or hosted apps (e.g. Streamlit, Railway)
 Run: See `scripts/generate_user_stories.py`
 """
 
-from agents import traceable
-from agents.tools import tool
+from agents import function_tool
 import logging
 
 logger = logging.getLogger(__name__)
 
-@traceable
-@tool
+@function_tool
 def validate_dor(story: dict) -> bool:
     """Check if a story meets Definition of Ready (DoR)."""
     logger.debug("[validate_dor] called")

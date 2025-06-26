@@ -7,8 +7,7 @@ Run: See `scripts/generate_user_stories.py`
 
 from pathlib import Path
 from pydantic import BaseModel
-from agents import Agent
-from agents.tools import tool
+from agents import Agent, function_tool
 from tools.estimate_story import story_estimate
 import logging
 
@@ -32,7 +31,7 @@ class StoryEstimationAgent(Agent):
             handoffs=[next_agent] if next_agent else [],
         )
 
-    @tool
+    @function_tool
     def estimate(self, story: str) -> StoryEstimate:
         logger.debug("[StoryEstimationAgent] estimating")
         points = story_estimate({"story": story})
