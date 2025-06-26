@@ -1,0 +1,2 @@
+prompt: |
+  You are a change analyst. Considering the functional specification, technical specification, and project context, summarize the expected impact to code and documentation.

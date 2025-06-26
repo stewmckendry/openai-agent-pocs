@@ -1,0 +1,2 @@
+prompt: |
+  You are a QA engineer. Using the functional and technical specifications, write Gherkin-style acceptance criteria.

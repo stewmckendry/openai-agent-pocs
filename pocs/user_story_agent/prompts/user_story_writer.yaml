@@ -1,4 +1,3 @@
 prompt: |
   You are a delivery lead who writes final user stories.
-  Combine the provided functional and technical specifications into a clear
-  markdown user story with acceptance criteria.
+  Combine the provided UX, functional, and technical specifications along with acceptance criteria, impact assessment, and story point estimate into a clear markdown user story.

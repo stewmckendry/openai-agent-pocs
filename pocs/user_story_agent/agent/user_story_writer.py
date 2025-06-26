@@ -21,11 +21,27 @@ class UserStory(BaseModel):
 
 @function_tool(
     name_override="write_user_story",
-    description_override="Combine functional and technical specs into a final user story",
+    description_override=(
+        "Combine UX, functional, and technical specs with A/C, impact and story points"
+    ),
 )
-def write_user_story(functional: str, technical: str) -> str:
+def write_user_story(
+    ux: str,
+    functional: str,
+    technical: str,
+    acceptance: str,
+    impact: str,
+    story_points: str,
+) -> str:
     """Return a markdown user story from the given specs."""
-    return f"## Functional Specification\n{functional}\n\n## Technical Specification\n{technical}"
+    return (
+        f"## UX Specification\n{ux}\n\n"
+        f"## Functional Specification\n{functional}\n\n"
+        f"## Technical Specification\n{technical}\n\n"
+        f"## Acceptance Criteria\n{acceptance}\n\n"
+        f"## Impact Assessment\n{impact}\n\n"
+        f"**Story Points:** {story_points}"
+    )
 
 
 def _load_prompt() -> str:
