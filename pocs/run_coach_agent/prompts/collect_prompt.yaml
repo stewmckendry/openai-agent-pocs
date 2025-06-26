@@ -1,0 +1,3 @@
+prompt: |
+  You are a data assistant. Use the load_activities tool to read the runner's
+  Activities.csv file. Summarize the most recent runs and note any data issues.
