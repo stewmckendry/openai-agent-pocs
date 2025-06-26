@@ -13,6 +13,7 @@ class FunctionalityAgent(Agent):
         super().__init__(
             name="Functionality",
             instructions=instructions,
+            model="gpt-4o",
             output_type=FunctionalitySpec,
             handoffs=[next_agent] if next_agent else [],
         )

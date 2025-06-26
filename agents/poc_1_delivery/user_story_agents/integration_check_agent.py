@@ -13,6 +13,7 @@ class IntegrationCheckAgent(Agent):
         super().__init__(
             name="IntegrationCheck",
             instructions=instructions,
+            model="gpt-4o",
             output_type=IntegrationCheck,
             handoffs=[next_agent] if next_agent else [],
         )

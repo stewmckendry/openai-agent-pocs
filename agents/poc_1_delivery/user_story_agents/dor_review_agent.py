@@ -15,6 +15,8 @@ class DoRReviewAgent(Agent):
         super().__init__(
             name="DoRReview",
             instructions=instructions,
+            model="gpt-4o",
+            output_type=DoRReview,
             tools=[self.review],
             handoffs=[next_agent] if next_agent else [],
         )

@@ -16,6 +16,8 @@ class TechContextAgent(Agent):
         super().__init__(
             name="TechContext",
             instructions=instructions,
+            model="gpt-4o",
+            output_type=TechContext,
             tools=[self.provide_context],
             handoffs=[next_agent] if next_agent else [],
         )

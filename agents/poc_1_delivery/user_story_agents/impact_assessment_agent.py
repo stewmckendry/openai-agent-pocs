@@ -15,6 +15,8 @@ class ImpactAssessmentAgent(Agent):
         super().__init__(
             name="ImpactAssessment",
             instructions=instructions,
+            model="gpt-4o",
+            output_type=ImpactAssessment,
             tools=[self.assess],
             handoffs=[next_agent] if next_agent else [],
         )
