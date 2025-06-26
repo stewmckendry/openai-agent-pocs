@@ -178,3 +178,14 @@
   task_id: task_101f_patch_env
   committed_by: GPTPod
   message: Patch Task 101f to include .env-example with OPENAI_API_KEY stub
+- timestamp: '2025-06-26T02:03:32.618051'
+  path: task_guides/task_101g_user_story_handoff_graph.md
+  task_id: task_101g_refactor_handoffs
+  committed_by: GPTPod
+  message: Create Task 101g to refactor user story PoC to use full agent handoff chaining
+    via SDK, referencing financial_research_agent example
+- timestamp: '2025-06-26T02:03:32.618051'
+  path: project/memory.yaml
+  task_id: task_101g_refactor_handoffs
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_101g_user_story_handoff_graph.md
