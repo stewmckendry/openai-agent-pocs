@@ -7,8 +7,7 @@ Run: See `scripts/generate_user_stories.py`
 
 from pathlib import Path
 from pydantic import BaseModel
-from agents import Agent
-from agents.tools import tool
+from agents import Agent, function_tool
 from tools.impact_assess import impact_assessment
 import logging
 
@@ -32,7 +31,7 @@ class ImpactAssessmentAgent(Agent):
             handoffs=[next_agent] if next_agent else [],
         )
 
-    @tool
+    @function_tool
     def assess(self, story: dict) -> ImpactAssessment:
         logger.debug("[ImpactAssessmentAgent] assess")
         impact = impact_assessment(story)

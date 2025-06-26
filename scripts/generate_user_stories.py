@@ -19,7 +19,7 @@ import sys
 import logging
 
 from agent_pocs.poc_1_delivery.user_story_lead_manager import UserStoryLeadManager
-from agents.tracing import draw_graph
+from agents.extensions.visualization import draw_graph
 
 
 def setup_logging(debug: bool = False) -> None:
@@ -55,7 +55,7 @@ async def main() -> None:
         f.write(draw_graph(trace))
 
     try:
-        from agents.visualization import visualize_trace
+        from agents.extensions.visualization import visualize_trace
 
         visualize_trace(trace, out_dir / "trace_graph.html")
     except Exception:

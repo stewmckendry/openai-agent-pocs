@@ -5,12 +5,12 @@ Deployment: Used in CLI or hosted apps (e.g. Streamlit, Railway)
 Run: See `scripts/generate_user_stories.py`
 """
 
-from agents.tools import tool
+from agents import function_tool
 import logging
 
 logger = logging.getLogger(__name__)
 
-@tool
+@function_tool
 def web_search(query: str):
     """Mock web search returning static results."""
     logger.debug("[web_search] called with %s", query)

@@ -8,8 +8,7 @@ Run: See `scripts/generate_user_stories.py`
 import json
 from pathlib import Path
 from pydantic import BaseModel
-from agents import Agent
-from agents.tools import tool
+from agents import Agent, function_tool
 import logging
 
 logger = logging.getLogger(__name__)
@@ -34,7 +33,7 @@ class TechContextAgent(Agent):
         )
         self.context = json.loads(Path("resources/tech_context.json").read_text())
 
-    @tool
+    @function_tool
     def provide_context(self) -> TechContext:
         logger.debug("[TechContextAgent] provide_context")
         return TechContext(**self.context)
