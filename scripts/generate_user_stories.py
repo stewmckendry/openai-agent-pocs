@@ -1,17 +1,22 @@
 #!/usr/bin/env python
-"""CLI to generate user stories from a feature idea.
-
-Input:
-    feature: short text description of the desired feature.
-Output:
-    ``stories.json`` containing serialized :class:`UserStory` data along with
-    ``trace.json`` and ``trace_graph.txt`` for debugging and visualization.
+"""
+CLI for generating user stories from a feature idea
+Run:
+  python scripts/generate_user_stories.py
+  or: poetry run python scripts/generate_user_stories.py
+Deployment:
+  Streamlit/Gradio UI (optional), or Railway CLI
+Requirements:
+  - Python 3.11+
+  - `openai-agents[viz]`
+  - `.env` file with OPENAI_API_KEY
 """
 import argparse
 import asyncio
 import json
 from pathlib import Path
 import sys
+import logging
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
@@ -19,13 +24,27 @@ from agents.poc_1_delivery import UserStoryLeadManager
 from openai_agents.tracing import draw_graph
 
 
+def setup_logging(debug: bool = False) -> None:
+    level = logging.DEBUG if debug else logging.INFO
+    Path("logs").mkdir(exist_ok=True)
+    logging.basicConfig(
+        level=level,
+        format="[%(levelname)s] [%(name)s] %(message)s",
+        handlers=[logging.FileHandler("logs/agent_run.log"), logging.StreamHandler()],
+    )
+
+
 async def main() -> None:
     parser = argparse.ArgumentParser(description="Generate DoR user stories")
     parser.add_argument("feature", nargs="?", help="Feature summary text")
     parser.add_argument("--out", default="project/outputs", help="Output directory")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
     args = parser.parse_args()
 
+    setup_logging(args.debug)
+
     feature = args.feature or input("Enter feature summary: ")
+    logging.getLogger(__name__).info("Generating stories for: %s", feature)
     typed_output, trace = await UserStoryLeadManager().run(feature)
 
     out_dir = Path(args.out)
@@ -43,7 +62,7 @@ async def main() -> None:
         visualize_trace(trace, out_dir / "trace_graph.html")
     except Exception:
         pass
-
+    logging.getLogger(__name__).info("Output written to %s", out_dir)
     print(typed_output.json(indent=2))
 
 

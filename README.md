@@ -19,3 +19,11 @@ https://coachingthemachine.substack.com/
 ### Running PoC 1
 Execute `scripts/deliver_feature.py` to run the legacy delivery workflow.
 Use `scripts/generate_user_stories.py` to generate DoR-compliant user stories for a feature.
+
+#### Testing the CLI
+```bash
+python scripts/generate_user_stories.py "As a user, I want to upload a CSV of customer contacts to the CRM"
+open project/outputs/stories.json
+open project/outputs/trace_graph.html
+```
+Ensure a `.env` file exists with `OPENAI_API_KEY` (see `.env-example`).
