@@ -1,5 +1,12 @@
 #!/usr/bin/env python
-"""CLI to generate user stories from a feature idea."""
+"""CLI to generate user stories from a feature idea.
+
+Input:
+    feature: short text description of the desired feature.
+Output:
+    ``stories.json`` containing serialized :class:`UserStory` data along with
+    ``trace.json`` and ``trace_graph.txt`` for debugging and visualization.
+"""
 import argparse
 import asyncio
 import json
@@ -8,13 +15,7 @@ import sys
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from agents.poc_1_delivery.user_story_agents.user_story_lead_agent import (
-    UserStoryLeadAgent,
-)
-from agents.poc_1_delivery.user_story_agents.integration_check_agent import (
-    IntegrationCheck,
-)
-from openai_agents import Runner
+from agents.poc_1_delivery import UserStoryLeadManager
 from openai_agents.tracing import draw_graph
 
 
@@ -25,10 +26,7 @@ async def main() -> None:
     args = parser.parse_args()
 
     feature = args.feature or input("Enter feature summary: ")
-    lead_agent = UserStoryLeadAgent()
-    result = await Runner.run(lead_agent, {"feature": feature})
-    typed_output = result.final_output_as(IntegrationCheck)
-    trace = result.trace
+    typed_output, trace = await UserStoryLeadManager().run(feature)
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
