@@ -1,2 +1,3 @@
 project/outputs/*.json
 __pycache__/
+.env
