@@ -47,6 +47,8 @@ pocs/user_story_agent/
 - `agents/technical_agent.py`: reads `tech_architecture.md`, outputs tech spec
 - `prompts/*.yaml`: one for each sub-agent (structured as `prompt:` key)
 - `test/`: provide test input and shell script to run the pipeline
+- `README.md`: documentation for the PoC
+- `printer.py`: Rich live output printer for agent interactions; you can use the existing `printer.py` from the SDK examples (copy it over)
 
 ---
 
