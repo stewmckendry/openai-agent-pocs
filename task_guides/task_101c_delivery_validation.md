@@ -15,6 +15,7 @@ Ensure the implementation from Task 101b conforms to OpenAI Agents SDK structure
 - Trace logs are generated and can be visualized
 - Trace context IDs are passed properly
 - Outputs are traceable across agent hops
+- Visualization graph is created using `openai-agents[viz]` (`draw_graph(trace)`)
 
 **✅ LLM Usage**
 - One or more agents use LLM (e.g. story generation, summarization)
@@ -42,6 +43,7 @@ Ensure the implementation from Task 101b conforms to OpenAI Agents SDK structure
 2. Input: provide a feature idea interactively
 3. Check CLI output, generated artifacts in `/data` or `/outputs`
 4. Confirm traces are saved or visualized
+5. Use `draw_graph(trace)` from `openai-agents[viz]` to render agent workflow
 
 ---
 
@@ -51,3 +53,4 @@ Ensure the implementation from Task 101b conforms to OpenAI Agents SDK structure
 - Output report in `task_guides/reports/task_101c_delivery_validation_report.md`
 
 Use SDK docs: https://github.com/openai/openai-agents-python/tree/main/docs
+- Visualization: https://github.com/openai/openai-agents-python/blob/main/docs/visualization.md
