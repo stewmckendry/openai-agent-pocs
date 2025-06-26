@@ -189,3 +189,14 @@
   task_id: task_101g_refactor_handoffs
   committed_by: GPTPod
   message: Memory update related to task_guides/task_101g_user_story_handoff_graph.md
+- timestamp: '2025-06-26T09:39:04.204208'
+  path: task_guides/task_101h_fix_sdk_imports.md
+  task_id: task_101h_imports_naming
+  committed_by: GPTPod
+  message: Add Task 101h to fix incorrect SDK imports and naming in repo to match
+    `src/agents/` structure exactly
+- timestamp: '2025-06-26T09:39:04.204208'
+  path: project/memory.yaml
+  task_id: task_101h_imports_naming
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_101h_fix_sdk_imports.md
