@@ -35,3 +35,15 @@
   - web
   last_updated: '2025-06-26'
   pod_owner: DeliveryPod
+- path: task_guides/task_105_run_coach_pipeline.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_105_run_coach_pipeline.md
+  file_type: md
+  description: Guide to setting up a pipeline using the OpenAI Agent SDK to create
+    a tactical training plan for runners based on user goals and past running data.
+  tags:
+  - pipeline
+  - agent
+  - SDK
+  - flow
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
