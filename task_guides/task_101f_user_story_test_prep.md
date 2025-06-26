@@ -69,6 +69,17 @@ Create a `.env-example` file with:
 OPENAI_API_KEY=your-api-key-here
 ```
 
+#### 6. **Logging Enhancements**
+- Integrate structured logging throughout all agents and tools using Python’s `logging` module.
+- Include log messages for:
+  - Agent/tool start and end
+  - Input arguments and validation errors
+  - Key decision points or branching logic
+  - Trace and handoff progression
+- Logging should output to both console and an optional `logs/agent_run.log` file (create directory if missing).
+- Format logs as: `[LEVEL] [AgentName.ToolName] message`
+- Set default log level to INFO with a CLI option for DEBUG
+
 ---
 
 ### ✅ Output
