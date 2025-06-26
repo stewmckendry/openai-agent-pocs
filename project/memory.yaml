@@ -180,3 +180,16 @@
   - structure
   last_updated: '2025-06-26'
   pod_owner: DevPod
+- path: task_guides/task_104_user_story_restart.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_104_user_story_restart.md
+  file_type: md
+  description: Guide for implementing a user story generation pipeline using an SDK-compliant
+    structure with agent handoffs for generating technical specifications from user
+    feature descriptions.
+  tags:
+  - sdk
+  - agent
+  - pipeline
+  - prompt
+  last_updated: '2025-06-26'
+  pod_owner: DeliveryPod
