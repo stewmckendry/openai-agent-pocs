@@ -1,20 +1,20 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 
 class FunctionalitySpec(BaseModel):
     functions: str
 
 
-class FunctionalityAgent(BaseAgent):
+class FunctionalityAgent(Agent):
     def __init__(self):
-        super().__init__("Functionality", Path("prompts/user_story_functionality.yaml"))
+        instructions = Path("prompts/user_story_functionality.yaml").read_text()
+        super().__init__(name="Functionality", instructions=instructions)
 
-    @traceable
-    def run(self, feature: str) -> FunctionalitySpec:
+    @tool
+    def generate_functionality(self, feature: str) -> FunctionalitySpec:
         import openai
 
         resp = openai.chat.completions.create(
@@ -25,6 +25,10 @@ class FunctionalityAgent(BaseAgent):
             ],
         )
         content = resp.choices[0].message.content
-        output = FunctionalitySpec(functions=content)
-        self.record("functionality", output.model_dump())
-        return output
+        return FunctionalitySpec(functions=content)
+
+    tools = [generate_functionality]
+    handoffs: list = []
+
+    def run(self, feature: str) -> FunctionalitySpec:
+        return self.generate_functionality(feature)

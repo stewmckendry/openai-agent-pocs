@@ -1,6 +1,7 @@
 from typing import Dict
 
-from openai_agents.tracing import Trace, traceable, draw_graph
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 from .ux_spec_agent import UXSpecAgent, UXSpec
 from .functionality_agent import FunctionalityAgent, FunctionalitySpec
@@ -13,11 +14,12 @@ from .tech_context_agent import TechContextAgent, TechContext
 from .integration_check_agent import IntegrationCheckAgent, IntegrationCheck
 
 
-class UserStoryLeadAgent:
+class UserStoryLeadAgent(Agent):
     """Generate Definition of Ready user stories from a feature description."""
 
     def __init__(self):
-        self.trace = Trace("UserStoryLead")
+        instructions = "Generate Definition of Ready user stories from a feature description."
+        super().__init__(name="UserStoryLead", instructions=instructions)
         self.ux = UXSpecAgent()
         self.func = FunctionalityAgent()
         self.tech = TechSpecAgent()
@@ -28,32 +30,26 @@ class UserStoryLeadAgent:
         self.context = TechContextAgent()
         self.integration = IntegrationCheckAgent()
 
-    @traceable
-    def run(self, feature: str) -> Dict:
+    @tool
+    def generate(self, feature: str) -> Dict:
         output: Dict[str, Dict] = {}
 
         context: TechContext = self.context.run()
-        self.trace.merge(self.context.trace)
         output["tech_context"] = context.model_dump()
 
         ux: UXSpec = self.ux.run(feature)
-        self.trace.merge(self.ux.trace)
         output["ux"] = ux.model_dump()
 
         functionality: FunctionalitySpec = self.func.run(feature)
-        self.trace.merge(self.func.trace)
         output["functionality"] = functionality.model_dump()
 
         tech: TechSpec = self.tech.run(feature)
-        self.trace.merge(self.tech.trace)
         output["tech_spec"] = tech.model_dump()
 
         acceptance: AcceptanceCriteria = self.acceptance.run(feature)
-        self.trace.merge(self.acceptance.trace)
         output["acceptance"] = acceptance.model_dump()
 
         estimate: StoryEstimate = self.estimate.run(feature)
-        self.trace.merge(self.estimate.trace)
         output["estimate"] = estimate.model_dump()
 
         dor: DoRReview = self.dor.run(
@@ -65,16 +61,18 @@ class UserStoryLeadAgent:
                 "estimate": estimate.points,
             }
         )
-        self.trace.merge(self.dor.trace)
         output["dor_review"] = dor.model_dump()
 
         impact: ImpactAssessment = self.impact.run(output)
-        self.trace.merge(self.impact.trace)
         output["impact"] = impact.model_dump()
 
         integration: IntegrationCheck = self.integration.run(feature)
-        self.trace.merge(self.integration.trace)
         output["integration"] = integration.model_dump()
 
-        self.trace.add_event("graph", draw_graph(self.trace))
         return output
+
+    tools = [generate]
+    handoffs: list = []
+
+    def run(self, feature: str) -> Dict:
+        return self.generate(feature)

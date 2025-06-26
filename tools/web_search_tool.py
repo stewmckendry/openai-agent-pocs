@@ -1,6 +1,6 @@
-class WebSearchTool:
-    """Mock web search returning static results."""
-    name = "web_search"
+from openai_agents.tools import tool
 
-    def __call__(self, query: str):
-        return f"Results for '{query}': example best practices."
+@tool
+def web_search(query: str):
+    """Mock web search returning static results."""
+    return f"Results for '{query}': example best practices."

@@ -1,23 +1,26 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
-from tools.impact_assess import ImpactAssessmentTool
+from openai_agents import Agent
+from openai_agents.tools import tool
+from tools.impact_assess import impact_assessment
 
 
 class ImpactAssessment(BaseModel):
     impact: str
 
 
-class ImpactAssessmentAgent(BaseAgent):
+class ImpactAssessmentAgent(Agent):
     def __init__(self):
-        super().__init__("ImpactAssessment", Path("prompts/user_story_impact.yaml"))
-        self.tool = ImpactAssessmentTool()
+        instructions = Path("prompts/user_story_impact.yaml").read_text()
+        super().__init__(name="ImpactAssessment", instructions=instructions)
 
-    @traceable
+    @tool
+    def assess(self, story: dict) -> ImpactAssessment:
+        impact = impact_assessment(story)
+        return ImpactAssessment(impact=impact)
+
+    tools = [assess]
+    handoffs: list = []
+
     def run(self, story: dict) -> ImpactAssessment:
-        impact = self.tool(story)
-        output = ImpactAssessment(impact=impact)
-        self.record("impact", output.model_dump())
-        return output
+        return self.assess(story)

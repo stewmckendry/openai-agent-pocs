@@ -1,8 +1,7 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 
 class UXSpec(BaseModel):
@@ -10,12 +9,13 @@ class UXSpec(BaseModel):
     journey: str
 
 
-class UXSpecAgent(BaseAgent):
+class UXSpecAgent(Agent):
     def __init__(self):
-        super().__init__("UXSpec", Path("prompts/user_story_ux.yaml"))
+        instructions = Path("prompts/user_story_ux.yaml").read_text()
+        super().__init__(name="UXSpec", instructions=instructions)
 
-    @traceable
-    def run(self, feature: str) -> UXSpec:
+    @tool
+    def generate_ux_spec(self, feature: str) -> UXSpec:
         import openai
 
         resp = openai.chat.completions.create(
@@ -28,6 +28,10 @@ class UXSpecAgent(BaseAgent):
         content = resp.choices[0].message.content
         personas = content
         journey = content
-        output = UXSpec(personas=personas, journey=journey)
-        self.record("ux", output.model_dump())
-        return output
+        return UXSpec(personas=personas, journey=journey)
+
+    tools = [generate_ux_spec]
+    handoffs: list = []
+
+    def run(self, feature: str) -> UXSpec:
+        return self.generate_ux_spec(feature)

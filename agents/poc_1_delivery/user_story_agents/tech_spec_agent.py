@@ -1,20 +1,20 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 
 class TechSpec(BaseModel):
     modules: str
 
 
-class TechSpecAgent(BaseAgent):
+class TechSpecAgent(Agent):
     def __init__(self):
-        super().__init__("TechSpec", Path("prompts/user_story_tech.yaml"))
+        instructions = Path("prompts/user_story_tech.yaml").read_text()
+        super().__init__(name="TechSpec", instructions=instructions)
 
-    @traceable
-    def run(self, feature: str) -> TechSpec:
+    @tool
+    def generate_tech_spec(self, feature: str) -> TechSpec:
         import openai
 
         resp = openai.chat.completions.create(
@@ -25,6 +25,10 @@ class TechSpecAgent(BaseAgent):
             ],
         )
         content = resp.choices[0].message.content
-        output = TechSpec(modules=content)
-        self.record("tech", output.model_dump())
-        return output
+        return TechSpec(modules=content)
+
+    tools = [generate_tech_spec]
+    handoffs: list = []
+
+    def run(self, feature: str) -> TechSpec:
+        return self.generate_tech_spec(feature)
