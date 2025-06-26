@@ -1,47 +1,87 @@
-from typing import Dict
+from __future__ import annotations
 
-from openai_agents import Agent
-from openai_agents.tools import tool
+from pydantic import BaseModel
 
-from .ux_spec_agent import UXSpecAgent
-from .functionality_agent import FunctionalityAgent
-from .tech_spec_agent import TechSpecAgent
-from .acceptance_agent import AcceptanceCriteriaAgent
-from .story_estimation_agent import StoryEstimationAgent
-from .dor_review_agent import DoRReviewAgent
-from .impact_assessment_agent import ImpactAssessmentAgent
-from .tech_context_agent import TechContextAgent
+from openai_agents import Runner, gen_trace_id, trace
+
+from .tech_context_agent import TechContextAgent, TechContext
+from .ux_spec_agent import UXSpecAgent, UXSpec
+from .functionality_agent import FunctionalityAgent, FunctionalitySpec
+from .tech_spec_agent import TechSpecAgent, TechSpec
+from .acceptance_agent import AcceptanceCriteriaAgent, AcceptanceCriteria
+from .story_estimation_agent import StoryEstimationAgent, StoryEstimate
+from .dor_review_agent import DoRReviewAgent, DoRReview
+from .impact_assessment_agent import ImpactAssessmentAgent, ImpactAssessment
 from .integration_check_agent import IntegrationCheckAgent, IntegrationCheck
 
 
-class UserStoryLeadAgent(Agent):
-    """Generate Definition of Ready user stories from a feature description."""
+class UserStory(BaseModel):
+    """Aggregated user story output."""
 
-    def __init__(self):
-        instructions = "Generate Definition of Ready user stories from a feature description."
-        # Instantiate sub-agents in reverse order so we can wire handoffs
-        self.integration = IntegrationCheckAgent()
-        self.impact = ImpactAssessmentAgent(next_agent=self.integration)
-        self.dor = DoRReviewAgent(next_agent=self.impact)
-        self.estimate = StoryEstimationAgent(next_agent=self.dor)
-        self.acceptance = AcceptanceCriteriaAgent(next_agent=self.estimate)
-        self.tech = TechSpecAgent(next_agent=self.acceptance)
-        self.func = FunctionalityAgent(next_agent=self.tech)
-        self.ux = UXSpecAgent(next_agent=self.func)
-        self.context = TechContextAgent(next_agent=self.ux)
+    tech_context: TechContext
+    ux_spec: UXSpec
+    functionality: FunctionalitySpec
+    tech_spec: TechSpec
+    acceptance: AcceptanceCriteria
+    estimate: StoryEstimate
+    dor_review: DoRReview
+    impact_assessment: ImpactAssessment
+    integration_check: IntegrationCheck
 
-        super().__init__(
-            name="UserStoryLead",
-            instructions=instructions,
-            model="gpt-4o",
-            output_type=IntegrationCheck,
-            tools=[self.generate],
-            handoffs=[self.context],
+
+class UserStoryLeadAgent:
+    """Manager that orchestrates the user story generation flow."""
+
+    def __init__(self) -> None:
+        self.context_agent = TechContextAgent()
+        self.ux_agent = UXSpecAgent()
+        self.func_agent = FunctionalityAgent()
+        self.tech_agent = TechSpecAgent()
+        self.acceptance_agent = AcceptanceCriteriaAgent()
+        self.estimation_agent = StoryEstimationAgent()
+        self.dor_agent = DoRReviewAgent()
+        self.impact_agent = ImpactAssessmentAgent()
+        self.integration_agent = IntegrationCheckAgent()
+
+    async def run(self, feature: str) -> UserStory:
+        """Run the full user story workflow for the provided feature."""
+        trace_id = gen_trace_id()
+        with trace("User story trace", trace_id=trace_id):
+            context_res = await Runner.run(self.context_agent, feature)
+            context = context_res.final_output_as(TechContext)
+
+            ux_res = await Runner.run(self.ux_agent, feature)
+            ux = ux_res.final_output_as(UXSpec)
+
+            func_res = await Runner.run(self.func_agent, feature)
+            functionality = func_res.final_output_as(FunctionalitySpec)
+
+            tech_res = await Runner.run(self.tech_agent, feature)
+            tech = tech_res.final_output_as(TechSpec)
+
+            acc_res = await Runner.run(self.acceptance_agent, feature)
+            acceptance = acc_res.final_output_as(AcceptanceCriteria)
+
+            est_res = await Runner.run(self.estimation_agent, feature)
+            estimate = est_res.final_output_as(StoryEstimate)
+
+            dor_res = await Runner.run(self.dor_agent, feature)
+            dor = dor_res.final_output_as(DoRReview)
+
+            impact_res = await Runner.run(self.impact_agent, feature)
+            impact = impact_res.final_output_as(ImpactAssessment)
+
+            int_res = await Runner.run(self.integration_agent, feature)
+            integration = int_res.final_output_as(IntegrationCheck)
+
+        return UserStory(
+            tech_context=context,
+            ux_spec=ux,
+            functionality=functionality,
+            tech_spec=tech,
+            acceptance=acceptance,
+            estimate=estimate,
+            dor_review=dor,
+            impact_assessment=impact,
+            integration_check=integration,
         )
-
-    @tool
-    def generate(self, feature: str) -> Dict:
-        """Entrypoint for the user story workflow."""
-        return {"feature": feature}
-
-    tools = [generate]
