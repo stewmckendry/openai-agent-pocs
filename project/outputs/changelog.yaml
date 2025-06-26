@@ -206,3 +206,14 @@
   committed_by: GPTPod
   message: Patch Task 101h with accurate SDK import examples for Agent, tools, tracing,
     visualization, and Runner.
+- timestamp: '2025-06-26T12:29:50.786765'
+  path: task_guides/task_104_user_story_restart.md
+  task_id: task_104_user_story_restart
+  committed_by: GPTPod
+  message: 'Create Task 104: Restart SDK-compliant user story agent pipeline under
+    pocs/user_story_agent/'
+- timestamp: '2025-06-26T12:29:50.786765'
+  path: project/memory.yaml
+  task_id: task_104_user_story_restart
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_104_user_story_restart.md
