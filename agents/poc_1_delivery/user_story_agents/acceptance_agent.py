@@ -9,9 +9,14 @@ class AcceptanceCriteria(BaseModel):
 
 
 class AcceptanceCriteriaAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_acceptance.yaml").read_text()
-        super().__init__(name="AcceptanceCriteria", instructions=instructions)
+        super().__init__(
+            name="AcceptanceCriteria",
+            instructions=instructions,
+            tools=[self.generate_acceptance],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def generate_acceptance(self, story: str) -> AcceptanceCriteria:
@@ -28,7 +33,3 @@ class AcceptanceCriteriaAgent(Agent):
         return AcceptanceCriteria(gherkin=content)
 
     tools = [generate_acceptance]
-    handoffs: list = []
-
-    def run(self, story: str) -> AcceptanceCriteria:
-        return self.generate_acceptance(story)

@@ -9,9 +9,14 @@ class FunctionalitySpec(BaseModel):
 
 
 class FunctionalityAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_functionality.yaml").read_text()
-        super().__init__(name="Functionality", instructions=instructions)
+        super().__init__(
+            name="Functionality",
+            instructions=instructions,
+            tools=[self.generate_functionality],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def generate_functionality(self, feature: str) -> FunctionalitySpec:
@@ -28,7 +33,3 @@ class FunctionalityAgent(Agent):
         return FunctionalitySpec(functions=content)
 
     tools = [generate_functionality]
-    handoffs: list = []
-
-    def run(self, feature: str) -> FunctionalitySpec:
-        return self.generate_functionality(feature)

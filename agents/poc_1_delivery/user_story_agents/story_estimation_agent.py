@@ -10,9 +10,14 @@ class StoryEstimate(BaseModel):
 
 
 class StoryEstimationAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_estimate.yaml").read_text()
-        super().__init__(name="StoryEstimation", instructions=instructions)
+        super().__init__(
+            name="StoryEstimation",
+            instructions=instructions,
+            tools=[self.estimate],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def estimate(self, story: str) -> StoryEstimate:
@@ -20,7 +25,3 @@ class StoryEstimationAgent(Agent):
         return StoryEstimate(points=points)
 
     tools = [estimate]
-    handoffs: list = []
-
-    def run(self, story: str) -> StoryEstimate:
-        return self.estimate(story)

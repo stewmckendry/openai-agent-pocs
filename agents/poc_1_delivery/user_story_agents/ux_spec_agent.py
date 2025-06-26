@@ -10,9 +10,14 @@ class UXSpec(BaseModel):
 
 
 class UXSpecAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_ux.yaml").read_text()
-        super().__init__(name="UXSpec", instructions=instructions)
+        super().__init__(
+            name="UXSpec",
+            instructions=instructions,
+            tools=[self.generate_ux_spec],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def generate_ux_spec(self, feature: str) -> UXSpec:
@@ -31,7 +36,3 @@ class UXSpecAgent(Agent):
         return UXSpec(personas=personas, journey=journey)
 
     tools = [generate_ux_spec]
-    handoffs: list = []
-
-    def run(self, feature: str) -> UXSpec:
-        return self.generate_ux_spec(feature)

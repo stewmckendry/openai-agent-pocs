@@ -9,9 +9,14 @@ class TechSpec(BaseModel):
 
 
 class TechSpecAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_tech.yaml").read_text()
-        super().__init__(name="TechSpec", instructions=instructions)
+        super().__init__(
+            name="TechSpec",
+            instructions=instructions,
+            tools=[self.generate_tech_spec],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def generate_tech_spec(self, feature: str) -> TechSpec:
@@ -28,7 +33,3 @@ class TechSpecAgent(Agent):
         return TechSpec(modules=content)
 
     tools = [generate_tech_spec]
-    handoffs: list = []
-
-    def run(self, feature: str) -> TechSpec:
-        return self.generate_tech_spec(feature)
