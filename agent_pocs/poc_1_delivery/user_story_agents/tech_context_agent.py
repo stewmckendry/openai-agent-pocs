@@ -8,8 +8,8 @@ Run: See `scripts/generate_user_stories.py`
 import json
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents import Agent
-from openai_agents.tools import tool
+from agents import Agent
+from agents.tools import tool
 import logging
 
 logger = logging.getLogger(__name__)

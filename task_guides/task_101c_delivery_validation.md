@@ -13,9 +13,9 @@ Ensure the implementation from Task 101b conforms to OpenAI Agents SDK structure
 - ❌ Do NOT implement custom wrappers for `Trace`, `Agent`, or `draw_graph`
 - ✅ Must import SDK directly:
   ```python
-  from openai_agents import Agent, traceable
-  from openai_agents.tracing import Trace
-  from openai_agents.visualize import draw_graph
+  from agents import Agent, traceable
+  from agents.tracing import Trace
+  from agents.visualize import draw_graph
   ```
 
 **✅ Tracing + Visualization**

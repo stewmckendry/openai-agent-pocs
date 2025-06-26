@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 
-from openai_agents import Runner, custom_span, gen_trace_id, trace
+from agents import Runner, custom_span, gen_trace_id, trace
 from rich.console import Console
 
 from .printer import Printer

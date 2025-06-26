@@ -7,7 +7,7 @@ Run: See `scripts/generate_user_stories.py`
 
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents import Agent
+from agents import Agent
 import logging
 
 logger = logging.getLogger(__name__)

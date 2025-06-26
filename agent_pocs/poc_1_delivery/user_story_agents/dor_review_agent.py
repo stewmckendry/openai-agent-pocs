@@ -7,8 +7,8 @@ Run: See `scripts/generate_user_stories.py`
 
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents import Agent
-from openai_agents.tools import tool
+from agents import Agent
+from agents.tools import tool
 from tools.validate_dor import validate_dor
 import logging
 

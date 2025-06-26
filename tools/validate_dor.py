@@ -5,8 +5,8 @@ Deployment: Used in CLI or hosted apps (e.g. Streamlit, Railway)
 Run: See `scripts/generate_user_stories.py`
 """
 
-from openai_agents import traceable
-from openai_agents.tools import tool
+from agents import traceable
+from agents.tools import tool
 import logging
 
 logger = logging.getLogger(__name__)

@@ -7,8 +7,8 @@ Run: See `scripts/generate_user_stories.py`
 
 from __future__ import annotations
 
-from openai_agents import Runner
-from openai_agents.tracing import Trace
+from agents import Runner
+from agents.tracing import Trace
 import logging
 
 logger = logging.getLogger(__name__)
