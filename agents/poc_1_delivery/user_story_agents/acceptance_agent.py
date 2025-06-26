@@ -1,20 +1,20 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 
 class AcceptanceCriteria(BaseModel):
     gherkin: str
 
 
-class AcceptanceCriteriaAgent(BaseAgent):
+class AcceptanceCriteriaAgent(Agent):
     def __init__(self):
-        super().__init__("AcceptanceCriteria", Path("prompts/user_story_acceptance.yaml"))
+        instructions = Path("prompts/user_story_acceptance.yaml").read_text()
+        super().__init__(name="AcceptanceCriteria", instructions=instructions)
 
-    @traceable
-    def run(self, story: str) -> AcceptanceCriteria:
+    @tool
+    def generate_acceptance(self, story: str) -> AcceptanceCriteria:
         import openai
 
         resp = openai.chat.completions.create(
@@ -25,6 +25,10 @@ class AcceptanceCriteriaAgent(BaseAgent):
             ],
         )
         content = resp.choices[0].message.content
-        output = AcceptanceCriteria(gherkin=content)
-        self.record("acceptance", output.model_dump())
-        return output
+        return AcceptanceCriteria(gherkin=content)
+
+    tools = [generate_acceptance]
+    handoffs: list = []
+
+    def run(self, story: str) -> AcceptanceCriteria:
+        return self.generate_acceptance(story)

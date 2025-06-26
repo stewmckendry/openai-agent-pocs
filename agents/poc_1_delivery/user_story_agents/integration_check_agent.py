@@ -1,20 +1,20 @@
 from pathlib import Path
 from pydantic import BaseModel
-from openai_agents.tracing import traceable
-
-from ..base import BaseAgent
+from openai_agents import Agent
+from openai_agents.tools import tool
 
 
 class IntegrationCheck(BaseModel):
     notes: str
 
 
-class IntegrationCheckAgent(BaseAgent):
+class IntegrationCheckAgent(Agent):
     def __init__(self):
-        super().__init__("IntegrationCheck", Path("prompts/user_story_impact.yaml"))
+        instructions = Path("prompts/user_story_impact.yaml").read_text()
+        super().__init__(name="IntegrationCheck", instructions=instructions)
 
-    @traceable
-    def run(self, feature: str) -> IntegrationCheck:
+    @tool
+    def check_integration(self, feature: str) -> IntegrationCheck:
         import openai
 
         resp = openai.chat.completions.create(
@@ -24,6 +24,10 @@ class IntegrationCheckAgent(BaseAgent):
                 {"role": "user", "content": feature},
             ],
         )
-        output = IntegrationCheck(notes=resp.choices[0].message.content)
-        self.record("integration", output.model_dump())
-        return output
+        return IntegrationCheck(notes=resp.choices[0].message.content)
+
+    tools = [check_integration]
+    handoffs: list = []
+
+    def run(self, feature: str) -> IntegrationCheck:
+        return self.check_integration(feature)

@@ -1,7 +1,7 @@
-class ValidateDoR:
-    """Custom tool to check if a story meets Definition of Ready (DoR)."""
-    name = "validate_DoR"
+from openai_agents.tools import tool
 
-    def __call__(self, story: dict) -> bool:
-        required_fields = ["id", "title", "description"]
-        return all(story.get(f) for f in required_fields)
+@tool
+def validate_dor(story: dict) -> bool:
+    """Check if a story meets Definition of Ready (DoR)."""
+    required_fields = ["id", "title", "description"]
+    return all(story.get(f) for f in required_fields)

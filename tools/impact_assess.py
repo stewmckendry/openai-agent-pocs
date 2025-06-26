@@ -1,7 +1,6 @@
-class ImpactAssessmentTool:
+from openai_agents.tools import tool
+
+@tool
+def impact_assessment(story: dict) -> str:
     """Simple tool to assess impact on existing systems."""
-
-    name = "impact_assessment"
-
-    def __call__(self, story: dict) -> str:
-        return "Minimal impact on current architecture."
+    return "Minimal impact on current architecture."

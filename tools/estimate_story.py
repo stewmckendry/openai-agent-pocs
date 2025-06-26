@@ -1,7 +1,6 @@
-class StoryEstimationTool:
+from openai_agents.tools import tool
+
+@tool
+def story_estimate(story: dict) -> int:
     """Return a fixed story point estimate."""
-
-    name = "story_estimate"
-
-    def __call__(self, story: dict) -> int:
-        return 3
+    return 3

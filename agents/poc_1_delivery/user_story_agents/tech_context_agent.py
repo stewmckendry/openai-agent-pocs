@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from pydantic import BaseModel
 from openai_agents import Agent
-from openai_agents.tracing import Trace, traceable
+from openai_agents.tools import tool
 
 
 class TechContext(BaseModel):
@@ -14,14 +14,14 @@ class TechContextAgent(Agent):
     def __init__(self):
         instructions = "Provide tech context to other agents."
         super().__init__(name="TechContext", instructions=instructions)
-        self.trace = Trace("TechContext")
         self.context = json.loads(Path("resources/tech_context.json").read_text())
 
-    def record(self, step: str, output: dict):
-        self.trace.add_event(step, output)
+    @tool
+    def provide_context(self) -> TechContext:
+        return TechContext(**self.context)
 
-    @traceable
+    tools = [provide_context]
+    handoffs: list = []
+
     def run(self) -> TechContext:
-        output = TechContext(**self.context)
-        self.record("context", output.model_dump())
-        return output
+        return self.provide_context()
