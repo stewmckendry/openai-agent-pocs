@@ -10,9 +10,14 @@ class DoRReview(BaseModel):
 
 
 class DoRReviewAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_dor_review.yaml").read_text()
-        super().__init__(name="DoRReview", instructions=instructions)
+        super().__init__(
+            name="DoRReview",
+            instructions=instructions,
+            tools=[self.review],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def review(self, story: dict) -> DoRReview:
@@ -20,7 +25,3 @@ class DoRReviewAgent(Agent):
         return DoRReview(ready=ready)
 
     tools = [review]
-    handoffs: list = []
-
-    def run(self, story: dict) -> DoRReview:
-        return self.review(story)

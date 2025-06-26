@@ -11,9 +11,14 @@ class TechContext(BaseModel):
 
 
 class TechContextAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = "Provide tech context to other agents."
-        super().__init__(name="TechContext", instructions=instructions)
+        super().__init__(
+            name="TechContext",
+            instructions=instructions,
+            tools=[self.provide_context],
+            handoffs=[next_agent] if next_agent else [],
+        )
         self.context = json.loads(Path("resources/tech_context.json").read_text())
 
     @tool
@@ -21,7 +26,3 @@ class TechContextAgent(Agent):
         return TechContext(**self.context)
 
     tools = [provide_context]
-    handoffs: list = []
-
-    def run(self) -> TechContext:
-        return self.provide_context()

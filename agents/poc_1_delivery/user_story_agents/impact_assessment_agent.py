@@ -10,9 +10,14 @@ class ImpactAssessment(BaseModel):
 
 
 class ImpactAssessmentAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_impact.yaml").read_text()
-        super().__init__(name="ImpactAssessment", instructions=instructions)
+        super().__init__(
+            name="ImpactAssessment",
+            instructions=instructions,
+            tools=[self.assess],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def assess(self, story: dict) -> ImpactAssessment:
@@ -20,7 +25,3 @@ class ImpactAssessmentAgent(Agent):
         return ImpactAssessment(impact=impact)
 
     tools = [assess]
-    handoffs: list = []
-
-    def run(self, story: dict) -> ImpactAssessment:
-        return self.assess(story)

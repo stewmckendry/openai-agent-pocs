@@ -9,9 +9,14 @@ class IntegrationCheck(BaseModel):
 
 
 class IntegrationCheckAgent(Agent):
-    def __init__(self):
+    def __init__(self, next_agent: Agent | None = None):
         instructions = Path("prompts/user_story_impact.yaml").read_text()
-        super().__init__(name="IntegrationCheck", instructions=instructions)
+        super().__init__(
+            name="IntegrationCheck",
+            instructions=instructions,
+            tools=[self.check_integration],
+            handoffs=[next_agent] if next_agent else [],
+        )
 
     @tool
     def check_integration(self, feature: str) -> IntegrationCheck:
@@ -27,7 +32,3 @@ class IntegrationCheckAgent(Agent):
         return IntegrationCheck(notes=resp.choices[0].message.content)
 
     tools = [check_integration]
-    handoffs: list = []
-
-    def run(self, feature: str) -> IntegrationCheck:
-        return self.check_integration(feature)
