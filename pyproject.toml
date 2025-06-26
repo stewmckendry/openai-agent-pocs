@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "openai-agent-pocs"
+version = "0.1.0"
+description = "OpenAI Agent PoCs"
+authors = ["Stewart McKendry <stewart.mckendry@gmail.com>"]
+packages = [
+  { include = "agent_pocs" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai-agents = {git = "https://github.com/stewmckendry/openai-agents-python.git", extras = ["viz"]}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
