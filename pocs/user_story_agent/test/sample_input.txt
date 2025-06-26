@@ -1,0 +1,1 @@
+As a user, I want to log in using my Google or GitHub account so that I don't need to remember another password.
