@@ -14,4 +14,8 @@ https://coachingthemachine.substack.com/
 - Showcase the OpenAI Agent SDK's capabilities
 - Use model-agnostic agent design (OpenAI, Gemini, etc.)
 - Demonstrate workflows with guardrails, tool use, tracing, visualization
-- Encourage collaboration and real-world application of agentic systems\n### Running PoC 1\nExecute `scripts/deliver_feature.py` and follow the prompts to run the delivery agents.
+- Encourage collaboration and real-world application of agentic systems
+
+### Running PoC 1
+Execute `scripts/deliver_feature.py` to run the legacy delivery workflow.
+Use `scripts/generate_user_stories.py` to generate DoR-compliant user stories for a feature.
