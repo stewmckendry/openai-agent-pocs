@@ -168,3 +168,15 @@
   - SDK
   last_updated: '2025-06-26'
   pod_owner: DevPod
+- path: task_guides/task_101h_fix_sdk_imports.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_101h_fix_sdk_imports.md
+  file_type: md
+  description: Guide to fixing SDK import paths and naming conventions to align with
+    the OpenAI Agents SDK structure.
+  tags:
+  - sdk
+  - imports
+  - agents
+  - structure
+  last_updated: '2025-06-26'
+  pod_owner: DevPod
