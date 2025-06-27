@@ -42,9 +42,20 @@ class RunCoachPipelineOutput(BaseModel):
 class RunCoachManager:
     """Sequentially execute the run coach pipeline."""
 
-    def __init__(self) -> None:
+    def __init__(self, model=None) -> None:
         self.console = Console()
         self.printer = Printer(self.console)
+        self.model = model
+        if model is not None:
+            for agent in [
+                goal_agent,
+                collect_agent,
+                analyze_agent,
+                plan_agent,
+                check_agent,
+                run_coach_agent,
+            ]:
+                agent.model = model
 
     async def run(self, goal_description: str) -> RunCoachPipelineOutput:
         trace_id = gen_trace_id()

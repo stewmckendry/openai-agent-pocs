@@ -74,11 +74,25 @@ class UserStoryPipelineOutput(BaseModel):
 class DeliveryLeadManager:
     """Orchestrates the sequential user story generation workflow."""
 
-    def __init__(self, mcp_server: MCPServer, max_dor_iterations: int = 5) -> None:
+    def __init__(self, mcp_server: MCPServer, max_dor_iterations: int = 5, model=None) -> None:
         self.console = Console()
         self.printer = Printer(self.console)
         self.max_dor_iterations = max_dor_iterations
         self.mcp_server = mcp_server
+        self.model = model
+        if model is not None:
+            for agent in [
+                ux_agent,
+                functional_agent,
+                technical_agent,
+                acceptance_agent,
+                estimate_agent,
+                user_story_writer_agent,
+                dor_verifier_agent,
+                _impact_placeholder,
+                delivery_lead_agent,
+            ]:
+                agent.model = model
 
     async def run(self, feature: str) -> UserStoryPipelineOutput:
         trace_id = gen_trace_id()
@@ -126,7 +140,7 @@ class DeliveryLeadManager:
                     f"Functional specification:\n{functional.spec}\n\n"
                     f"Technical specification:\n{technical.spec}"
                 )
-                impact_agent = build_impact_agent(self.mcp_server)
+                impact_agent = build_impact_agent(self.mcp_server, model=self.model)
                 impact_result = await Runner.run(impact_agent, impact_input)
                 impact = impact_result.final_output_as(ImpactSummary)
                 self.printer.update_item("impact", impact.summary, is_done=True)

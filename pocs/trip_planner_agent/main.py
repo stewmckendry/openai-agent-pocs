@@ -6,7 +6,9 @@ Requirements:
   trip goals or pipe the file as stdin.
 """
 
+import argparse
 import asyncio
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -15,12 +17,22 @@ from agents.exceptions import (
     OutputGuardrailTripwireTriggered,
 )
 
+from agents.extensions.models.litellm_model import LitellmModel
 from .tripmanager import TripPlanningManager, visualize_workflow
 
 
 async def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, help="Model to use (e.g. openai/gpt-4o)")
+    parser.add_argument("--api-key", type=str, help="API key for the model")
+    args = parser.parse_args()
+
+    model_name = args.model if args.model else os.environ["MODEL"]
+    api_key = args.api_key if args.api_key else os.environ["MODEL_API_KEY"]
+    model = LitellmModel(model=model_name, api_key=api_key)
+
     goal = input("Describe your trip goals: ")
-    mgr = TripPlanningManager()
+    mgr = TripPlanningManager(model=model)
     try:
         result = await mgr.run(goal)
     except InputGuardrailTripwireTriggered as exc:

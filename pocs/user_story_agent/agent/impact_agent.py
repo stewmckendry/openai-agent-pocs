@@ -19,7 +19,7 @@ def _load_prompt() -> str:
     return "".join(lines[1:]).lstrip()
 
 
-def build_impact_agent(server: MCPServer) -> Agent:
+def build_impact_agent(server: MCPServer, model=None) -> Agent:
     """Create an ImpactAssessmentAgent that can access context files via MCP."""
 
     return Agent(
@@ -27,6 +27,7 @@ def build_impact_agent(server: MCPServer) -> Agent:
         instructions=_load_prompt(),
         mcp_servers=[server],
         output_type=ImpactSummary,
+        model=model,
     )
 
 
