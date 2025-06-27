@@ -14,6 +14,8 @@ from pathlib import Path
 from agents import gen_trace_id, trace
 from agents.exceptions import InputGuardrailTripwireTriggered
 from agents.extensions.models.litellm_model import LitellmModel
+import litellm
+litellm.drop_params = True
 from .runcoach import RunCoachManager, visualize_workflow
 
 

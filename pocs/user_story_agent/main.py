@@ -18,6 +18,8 @@ from agents.exceptions import InputGuardrailTripwireTriggered
 from agents.mcp import MCPServerStdio
 
 from agents.extensions.models.litellm_model import LitellmModel
+import litellm
+litellm.drop_params = True
 from .deliverylead import DeliveryLeadManager, visualize_workflow
 
 

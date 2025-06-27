@@ -19,6 +19,8 @@ from agents.exceptions import (
 )
 
 from agents.extensions.models.litellm_model import LitellmModel
+import litellm
+litellm.drop_params = True
 from .tripmanager import TripPlanningManager, visualize_workflow
 from dotenv import load_dotenv
 
@@ -33,7 +35,8 @@ async def main() -> None:
 
     model_name = args.model if args.model else os.environ["MODEL"]
     api_key = args.api_key if args.api_key else os.environ["MODEL_API_KEY"]
-    model = LitellmModel(model=model_name, api_key=api_key)
+    #model = LitellmModel(model=model_name, api_key=api_key)
+    model = None # use default model for this PoC because didn't built-in WebSearch tool not available in LitellmModel
 
     goal = input("Describe your trip goals: ")
     mgr = TripPlanningManager(model=model)

@@ -3,3 +3,30 @@ prompt: |
   list 3-5 important research topics to investigate. Each topic should include a
   short web search query and a brief reason for searching. Use the `get_current_date`
   tool when referencing relative dates like seasons.
+  Respond only in JSON. Do not include any prose or Markdown formatting.
+
+  Your response must be:
+  {
+    "topics": [
+      {
+        "query": "best time to visit {destination}",
+        "reason": "To find the most suitable travel dates based on weather and local events."
+      },
+      {
+        "query": "top attractions in {destination}",
+        "reason": "To identify must-see places and activities for the trip."
+      },
+      {
+        "query": "local cuisine in {destination}",
+        "reason": "To explore popular dishes and dining options unique to the area."
+      },
+      {
+        "query": "cultural norms in {destination}",
+        "reason": "To understand local customs and etiquette for respectful interactions."
+      },
+      {
+        "query": "transportation options in {destination}",
+        "reason": "To plan how to get around the area efficiently."
+      }
+    ]
+  }
