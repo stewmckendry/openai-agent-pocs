@@ -1,3 +1,7 @@
 # Project Context Files
 
-This folder contains design docs, backlog items, and code samples for the User Story Agent PoC.
+These sample files provide the User Story Agent with basic knowledge about the
+postal company's online portal.  They describe the existing design,
+technology stack and a small product backlog.  The agent uses this information
+to assess the impact of new features and to generate more complete user
+stories.
