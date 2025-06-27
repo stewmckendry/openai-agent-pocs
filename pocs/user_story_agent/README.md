@@ -1,28 +1,36 @@
 # User Story Agent PoC
 
-This Proof of Concept converts a short feature request into a Definition of Ready compliant user story using the OpenAI Agents SDK. A Delivery Lead agent orchestrates a sequence of specialized sub-agents to produce intermediate specifications and the final story.
+This proof of concept turns a short feature request into a Definition of Ready compliant user story. A Delivery Lead agent coordinates several specialized agents to gather specifications and write the final story.
 
-## Pipeline
+## Target users
+- Product owners or delivery leads who need consistent user stories
+- Developers exploring automated requirements generation
 
-1. **UX Agent** – outlines target personas and user journeys.
-2. **Functional Agent** – writes functional requirements based on the feature and UX spec.
-3. **Technical Agent** – generates a technical specification using the reference architecture.
-4. **Acceptance Agent** – drafts Gherkin-style acceptance criteria.
-5. **Impact Agent** – summarizes code and documentation impact.
-6. **Estimation Agent** – estimates story points with the Fibonacci scale.
-7. **User Story Writer** – combines all specs into a markdown user story.
-8. **DoR Verifier** – iteratively checks the story against the Definition of Ready.
+## Benefits
+- Quickly expands a one‑line feature request into UX, functional and technical specs
+- Provides acceptance criteria and impact analysis
+- Iteratively checks that the resulting story meets your Definition of Ready
 
-Each stage prints its output to the console so you can see the UX, functional, technical, acceptance, impact and estimation results before the final story is displayed.
+## Pipeline overview
+1. **UX Agent** – outlines target personas and user journeys
+2. **Functional Agent** – writes functional requirements using the UX spec
+3. **Technical Agent** – generates a technical design using the reference architecture
+4. **Acceptance Agent** – drafts Gherkin‑style acceptance criteria
+5. **Impact Agent** – summarizes code and documentation impact
+6. **Estimation Agent** – estimates story points with the Fibonacci scale
+7. **User Story Writer** – combines all specs into a markdown user story
+8. **DoR Verifier** – revises the story until it passes the Definition of Ready
 
-## Files
-- `main.py` – entry point that runs the pipeline
-- `deliverylead.py` – orchestrates the agents above
-- `agent/` – individual agent modules
-- `prompts/` – YAML prompt templates
-- `resources/tech_architecture.md` – reference architecture for the technical agent
-- `outputs/` – saved user stories and workflow images
-- `test/` – sample input and a simple test runner
+Progress for each stage is printed to the console so you can review the intermediate specs.
+
+## Inputs and outputs
+- **Input:** a brief feature description and the technical architecture file in `resources/`
+- **Output:** the final user story printed to the console and saved under `outputs/` with a workflow image and all intermediate specs
+
+## Future enhancements
+- Link directly to issue trackers for story creation
+- Add a persona repository for richer UX guidance
+- Provide optional code scaffolding based on the technical spec
 
 ## Running
 Install dependencies and run:
@@ -31,10 +39,10 @@ Install dependencies and run:
 python -m pocs.user_story_agent.main
 ```
 
-You can also provide the sample input:
+Try the sample feature description with:
 
 ```bash
 python -m pocs.user_story_agent.main < pocs/user_story_agent/test/sample_input.txt
 ```
 
-During execution all intermediate specs and the final user story are printed. The results are saved in `pocs/user_story_agent/outputs/` as a timestamped markdown file and a workflow diagram image.
+The generated story and diagram are saved in `pocs/user_story_agent/outputs/`.
