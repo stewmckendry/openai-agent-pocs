@@ -12,6 +12,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+from agents import gen_trace_id, trace
 from agents.exceptions import (
     InputGuardrailTripwireTriggered,
     OutputGuardrailTripwireTriggered,
@@ -36,16 +37,18 @@ async def main() -> None:
 
     goal = input("Describe your trip goals: ")
     mgr = TripPlanningManager(model=model)
-    try:
-        result = await mgr.run(goal)
-    except InputGuardrailTripwireTriggered as exc:
-        info = exc.guardrail_result.output.output_info
-        print(f"\nInput rejected: {getattr(info, 'reason', '')}")
-        return
-    except OutputGuardrailTripwireTriggered as exc:
-        info = exc.guardrail_result.output.output_info
-        print(f"\nInvalid itinerary: {getattr(info, 'reason', '')}")
-        return
+    trace_id = gen_trace_id()
+    with trace("trip_planner_poc", trace_id=trace_id):
+        try:
+            result = await mgr.run(goal, trace_id=trace_id)
+        except InputGuardrailTripwireTriggered as exc:
+            info = exc.guardrail_result.output.output_info
+            print(f"\nInput rejected: {getattr(info, 'reason', '')}")
+            return
+        except OutputGuardrailTripwireTriggered as exc:
+            info = exc.guardrail_result.output.output_info
+            print(f"\nInvalid itinerary: {getattr(info, 'reason', '')}")
+            return
 
     print("\n--- Trip Itinerary ---\n")
     print(result.plan.response)
