@@ -47,20 +47,24 @@ async def main() -> None:
     output_dir.mkdir(exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     plan_file = output_dir / f"plan_{timestamp}.md"
+    resources = ["Activities.csv"]
     with open(plan_file, "w", encoding="utf-8") as f:
-        f.write("# Your Race Input\n")
+        f.write("## User:\n")
         f.write(goal + "\n\n")
 
-        f.write("# Race Goal\n")
+        f.write("## Resources:\n")
+        for r in resources:
+            f.write(f"- {r}\n")
+        f.write("\n")
+
+        f.write("## AI Agent:\n")
+        f.write("### Race Goal\n")
         f.write(str(result.goal) + "\n\n")
 
-        f.write("# Current Run Stats\n")
-        f.write(result.runs.csv + "\n\n")
-
-        f.write("# Run Analysis\n")
+        f.write("### Run Analysis\n")
         f.write(result.analysis.analysis + "\n\n")
 
-        f.write("# Training Plan\n")
+        f.write("### Training Plan\n")
         f.write(result.plan.plan)
 
     visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))

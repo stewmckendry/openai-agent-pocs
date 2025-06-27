@@ -46,7 +46,8 @@ output_check_agent = Agent(
 class TripOutput(BaseModel):
     """Wrapper for planner output when validating."""
 
-    response: str
+    summary: str
+    itinerary: str
 
 
 @input_guardrail
@@ -69,7 +70,7 @@ async def trip_quality_guardrail(
     agent: Agent,
     output: TripOutput,
 ) -> GuardrailFunctionOutput:
-    result = await Runner.run(output_check_agent, output.response, context=ctx.context)
+    result = await Runner.run(output_check_agent, output.itinerary, context=ctx.context)
     decision = result.final_output_as(GuardrailDecision)
     return GuardrailFunctionOutput(
         output_info=decision,

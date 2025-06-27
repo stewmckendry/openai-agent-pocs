@@ -53,28 +53,42 @@ async def main() -> None:
             print(f"\nInvalid itinerary: {getattr(info, 'reason', '')}")
             return
 
-    print("\n--- Trip Itinerary ---\n")
-    print(result.plan.response)
+    print("\n--- Trip Plan ---\n")
+    print(result.plan.summary)
+    print()
+    print(result.plan.itinerary)
 
     output_dir = Path(__file__).resolve().parent / "outputs"
     output_dir.mkdir(exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     plan_file = output_dir / f"trip_{timestamp}.md"
+    resources = []
     with open(plan_file, "w", encoding="utf-8") as f:
-        f.write("# Trip Goals\n")
+        f.write("## User:\n")
         f.write(goal + "\n\n")
 
-        f.write("# Research Topics\n")
+        f.write("## Resources:\n")
+        if resources:
+            for r in resources:
+                f.write(f"- {r}\n")
+        else:
+            f.write("None\n")
+        f.write("\n")
+
+        f.write("## AI Agent:\n")
+        f.write("### Trip Plan\n")
+        f.write(result.plan.summary + "\n\n")
+        f.write(result.plan.itinerary + "\n\n")
+
+        f.write("### More information\n")
+        f.write("#### Research Topics\n")
         for t in result.topics.topics:
             f.write(f"- {t.query} ({t.reason})\n")
         f.write("\n")
 
-        f.write("# Research Summaries\n")
+        f.write("#### Research Summaries\n")
         for r in result.research:
             f.write(r.summary + "\n\n")
-
-        f.write("# Trip Plan\n")
-        f.write(result.plan.response)
 
     visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
 
