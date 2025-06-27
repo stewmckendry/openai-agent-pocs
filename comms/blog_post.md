@@ -4,25 +4,18 @@
 
 ### Everyone’s Talking About Agents. But Can They Really Help?
 
-AI agents are moving from hype into mission-critical systems across sectors. Consider:
+AI agents are quickly becoming part of mainstream business strategy. According to recent surveys, over half of companies already run agents in production, and nearly 80% are actively developing new ones.
 
-• According to the 2025 "State of AI Agents" survey by LangChain, **51% of companies** are already running AI agents in production, and **78% are currently developing new agents** ([langchain.com](https://www.langchain.com/stateofaiagents?utm_source=chatgpt.com)).
+And yet, the term "AI agent" remains loosely defined. Most people still encounter AI as basic copilots or chat interfaces—like using ChatGPT to draft a document or Microsoft Copilot to summarize a Teams call. These tools provide real productivity value but are only the starting point.
 
-• In a survey from Salesforce, **78% of C-suite leaders** say their organizations are already using AI agents, viewing “digital labor” as a strategic advantage ([salesforceben.com](https://www.salesforceben.com/78-of-leaders-report-their-companies-are-using-ai-agents-the-latest-salesforce-stats/?utm_source=chatgpt.com)).
+We’re just beginning to unlock what’s possible when AI agents take on more responsibility and autonomy. There’s a clear continuum emerging:
 
-• The global AI agent market is projected to grow from **\$3.7 billion in 2023 to over \$100 billion by 2032** ([warmly.ai](https://www.warmly.ai/p/blog/ai-agents-statistics?utm_source=chatgpt.com)).
+* **Small tasks** (like extracting data from a file)
+* → **Persistent roles** (like an AI planner or researcher)
+* → **Chained processes** (like onboarding or trip planning)
+* → **Functional agents** managing entire workflows across systems
 
-Even though these numbers are high, the term "AI agent" remains loosely defined. Many people are still wrapping their heads around how to use these technologies securely and responsibly—especially as the market moves fast and the hype cycle accelerates.
-
-Today, most of us interact with AI as copilots or assistants—whether using ChatGPT to brainstorm a document or leveraging Microsoft Copilot inside Teams or Word. These tools offer valuable productivity gains.
-
-But we’re only beginning to scratch the surface of what’s possible when AI agents take on:
-
-* **Routine tasks** (e.g. analyzing files, summarizing logs)
-* **Defined roles** (e.g. a planner, a researcher, a designer)
-* **Coordinated functions** (e.g. generating plans, taking actions, and verifying results)
-
-While early signs are promising, there’s still an *abundance of marketing* and a *shortage of proven agent systems operating at scale*.
+This trend underpins the mission that Shopify CEO Tobi Lütke described in a memo: teams will need to demonstrate why new roles can't be handled by AI before asking for headcount or budget. That mindset is spreading—and may become the norm faster than we think.
 
 That leaves leaders with important strategic questions:
 
@@ -30,39 +23,27 @@ That leaves leaders with important strategic questions:
 2. *What does my organization need to look like to support this? What infrastructure—technical, data, governance—makes this sustainable?*
 3. *How do we go beyond pilots and experiments to scale these systems responsibly? Do we centralize efforts—or empower teams across the organization?*
 
-👉 This post doesn’t answer every question. But it does share three practical applications of AI agents, built to showcase what these systems can actually do for both individuals and organizations. You'll see how they were built, what they enable, what to think about as you roll them out—whether for experimentation or scaled adoption—and hopefully get inspired to start building too.
+👉 This post shares three practical applications of AI agents to show what’s already possible—how they’re built, how they work, and how they can support real-world use cases both for individuals and organizations.
 
 ---
 
-### From Custom GPTs to Real AI Agent Teams
+### From Custom GPTs to AI Agent Teams
 
-In earlier CoachingTheMachine posts, I shared projects like:
+In earlier CoachingTheMachine posts, I shared projects like **ConcussionGPT** (for youth sports safety), **GovDoc Copilot** (for public sector writing), and **MyHealth AI Assistant** (for exploring your own health data). These were helpful single-agent tools built with ChatGPT, often enhanced with retrieval or templates—but limited to one model and one interface, with little flexibility or visibility into how they worked.
 
-* **ConcussionGPT**, a custom assistant for sports safety;
-* **GovDoc Copilot**, a copilot for writing public sector submissions;
-* **MyHealth AI Assistant**, a conversational tool to explore your own health data.
+Now, with frameworks like the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python) and the **Model Context Protocol (MCP)**, we can go much further.
 
-These were helpful copilots—conversational interfaces to a single LLM, often enhanced with retrieval tools or structured templates. But they were still solo players.
+These tools let us build teams of AI agents that work together—each with its own job, memory, and tools. The SDK gives you a simple but robust platform to build agents without reinventing the wheel. It comes ready-to-use with:
 
-This next wave is different. With the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python), we can now build **teams of agents**, each with a defined role, tools, and memory—working together through structured handoffs.
+* **Agents** – LLMs equipped with specific instructions and tools
+* **Handoffs** – the ability to delegate tasks to other agents in a chain
+* **Guardrails** – safeguards to check inputs before agents act
+* **Headless design** – deploy agents through any frontend (e.g. Streamlit, Slack, custom apps)
+* **Model and provider flexibility** – switch between GPT-4, Claude, Gemini, or others as needed
+* **MCP support** – a new open standard that lets AI agents interact with files, tools, and context like a developer would
+* **Built-in trace + visualization** – to debug, iterate, and improve your flows
 
-The SDK is designed to be lightweight, Python-friendly, and transparent. You work directly with core primitives:
-
-* **Agents**, which are LLMs equipped with tools and instructions
-* **Handoffs**, which allow agents to delegate specific tasks to other agents
-* **Guardrails**, which validate input and enforce preconditions before processing
-
-It’s simple enough to use without a steep learning curve, yet powerful enough to express complex workflows. You can also trace, debug, visualize, and fine-tune the flows.
-
-In the rest of this post, I’ll walk through **three working examples**, each built using this SDK:
-
-* 🏅 **Run Coach Agent**: generates a tailored training plan from your running data and race goal
-* ✈️ **Trip Planner Agent**: assembles a day-by-day itinerary from a single sentence
-* 🛠️ **User Story Agent**: transforms a vague idea into a developer-ready user story
-
-Each one is built around a real-world use case and shows how agents can collaborate, reason, and deliver structured, traceable results. And each one was built not with manual coding, but with Codex-powered tools and reusable context from a shared AI-friendly file system (MCP).
-
-Let’s see what they can do.
+In the rest of this post, I’ll walk through **three working examples**, each tailored to a different kind of use case—some consumer-facing, some built for project or product teams inside organizations. They’re not meant to be exclusive patterns, but rather to spark ideas and show what’s now possible.&#x20;
 
 ---
 
