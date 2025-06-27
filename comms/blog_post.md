@@ -2,29 +2,39 @@
 
 ---
 
-### Everyone’s Talking About Agents. But What Are They Really?
+### Everyone’s Talking About Agents. But Can They Really Help?
 
-"AI agent." It’s everywhere now. In press releases, platform updates, product roadmaps, think tank papers. Everyone’s using the term.
+AI agents are moving from hype into mission-critical systems across sectors. Consider:
 
-But if you ask someone what an AI agent actually *does* — or how one might be useful in your organization, your team, or your daily life — the answers get fuzzy. Fast.
+• According to the 2025 "State of AI Agents" survey by LangChain, **51% of companies** are already running AI agents in production, and **78% are currently developing new agents** ([langchain.com](https://www.langchain.com/stateofaiagents?utm_source=chatgpt.com)).
 
-That’s why I built three AI agents of my own.
+• In a survey from Salesforce, **78% of C-suite leaders** say their organizations are already using AI agents, viewing “digital labor” as a strategic advantage ([salesforceben.com](https://www.salesforceben.com/78-of-leaders-report-their-companies-are-using-ai-agents-the-latest-salesforce-stats/?utm_source=chatgpt.com)).
 
-I wanted to *make it real*.
+• The global AI agent market is projected to grow from **\$3.7 billion in 2023 to over \$100 billion by 2032** ([warmly.ai](https://www.warmly.ai/p/blog/ai-agents-statistics?utm_source=chatgpt.com)).
 
-Not just to tinker with the latest SDK. But to show what agents can do for good. How they actually work. What it takes to build them. And why they matter — not only for technologists, but for public sector leaders, frontline workers, parents, and anyone thinking about the future.
+Even though these numbers are high, the term "AI agent" remains loosely defined. Many people are still wrapping their heads around how to use these technologies securely and responsibly—especially as the market moves fast and the hype cycle accelerates.
 
-This post walks through what I learned building three Proof-of-Concept AI agents using OpenAI's new `openai-agents` SDK. These are:
+Today, most of us interact with AI as copilots or assistants—whether using ChatGPT to brainstorm a document or leveraging Microsoft Copilot inside Teams or Word. These tools offer valuable productivity gains.
 
-* A **Run Coach Agent** to create a personalized training plan from your fitness data.
-* A **Trip Planner Agent** to build a 2-week family NHL road trip from a one-line idea.
-* A **User Story Agent** to turn a vague feature request into a fully specified development story.
+But we’re only beginning to scratch the surface of what’s possible when AI agents take on:
 
-Each one is grounded in a real use case. Each one teaches something about what agents are, how they work, and where the future is going. I’ll also reflect on what this means for organizations, workers, and parents alike.
+* **Routine tasks** (e.g. analyzing files, summarizing logs)
+* **Defined roles** (e.g. a planner, a researcher, a designer)
+* **Coordinated functions** (e.g. generating plans, taking actions, and verifying results)
+
+While early signs are promising, there’s still an *abundance of marketing* and a *shortage of proven agent systems operating at scale*.
+
+That leaves leaders with important strategic questions:
+
+1. *What are the real capabilities AI agents can provide—and how do we take best advantage of them for our business, customers, and people?*
+2. *What does my organization need to look like to support this? What infrastructure—technical, data, governance—makes this sustainable?*
+3. *How do we go beyond pilots and experiments to scale these systems responsibly? Do we centralize efforts—or empower teams across the organization?*
+
+👉 This post doesn’t answer every question. But it does share three practical applications of AI agents, built to showcase what these systems can actually do for both individuals and organizations. You'll see how they were built, what they enable, what to think about as you roll them out—whether for experimentation or scaled adoption—and hopefully get inspired to start building too.
 
 ---
 
-### From Custom GPTs to AI Agent Teams: What’s Evolving?
+### From Custom GPTs to Real AI Agent Teams
 
 In earlier CoachingTheMachine posts, I shared projects like:
 
@@ -32,15 +42,27 @@ In earlier CoachingTheMachine posts, I shared projects like:
 * **GovDoc Copilot**, a copilot for writing public sector submissions;
 * **MyHealth AI Assistant**, a conversational tool to explore your own health data.
 
-Each of those tools was a *conversational interface* to a single LLM, perhaps enhanced with retrieval or external tools.
+These were helpful copilots—conversational interfaces to a single LLM, often enhanced with retrieval tools or structured templates. But they were still solo players.
 
-This next wave is different.
+This next wave is different. With the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python), we can now build **teams of agents**, each with a defined role, tools, and memory—working together through structured handoffs.
 
-With the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python), we can now create **teams of agents**, each with their own role, memory, tools, and output. They don’t just respond — they collaborate. They hand off work. They analyze, plan, revise.
+The SDK is designed to be lightweight, Python-friendly, and transparent. You work directly with core primitives:
 
-They act more like humans.
+* **Agents**, which are LLMs equipped with tools and instructions
+* **Handoffs**, which allow agents to delegate specific tasks to other agents
+* **Guardrails**, which validate input and enforce preconditions before processing
 
-That shift matters. And the best way to understand it is to see it in action.
+It’s simple enough to use without a steep learning curve, yet powerful enough to express complex workflows. You can also trace, debug, visualize, and fine-tune the flows.
+
+In the rest of this post, I’ll walk through **three working examples**, each built using this SDK:
+
+* 🏅 **Run Coach Agent**: generates a tailored training plan from your running data and race goal
+* ✈️ **Trip Planner Agent**: assembles a day-by-day itinerary from a single sentence
+* 🛠️ **User Story Agent**: transforms a vague idea into a developer-ready user story
+
+Each one is built around a real-world use case and shows how agents can collaborate, reason, and deliver structured, traceable results. And each one was built not with manual coding, but with Codex-powered tools and reusable context from a shared AI-friendly file system (MCP).
+
+Let’s see what they can do.
 
 ---
 
