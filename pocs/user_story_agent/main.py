@@ -42,7 +42,7 @@ async def main() -> None:
         with trace("user_story_poc", trace_id=trace_id):
             mgr = DeliveryLeadManager(server, model=model)
             try:
-                result = await mgr.run(feature)
+                result = await mgr.run(feature, trace_id=trace_id)
             except InputGuardrailTripwireTriggered as exc:
                 info = exc.guardrail_result.output.output_info
                 print(f"\nInput rejected: {getattr(info, 'reason', '')}")

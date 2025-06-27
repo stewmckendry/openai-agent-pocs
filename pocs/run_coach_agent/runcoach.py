@@ -5,7 +5,7 @@ from rich.console import Console
 from pydantic import BaseModel
 
 from agents import Agent
-from agents import Runner, gen_trace_id, trace
+from agents import Runner
 from agents.extensions.visualization import draw_graph
 
 from .printer import Printer
@@ -57,9 +57,8 @@ class RunCoachManager:
             ]:
                 agent.model = model
 
-    async def run(self, goal_description: str) -> RunCoachPipelineOutput:
-        trace_id = gen_trace_id()
-        with trace("run_coach_pipeline", trace_id=trace_id):
+    async def run(self, goal_description: str, trace_id: str | None = None) -> RunCoachPipelineOutput:
+        if trace_id:
             self.printer.update_item(
                 "trace_id",
                 f"View trace: https://platform.openai.com/traces/trace?trace_id={trace_id}",
@@ -68,52 +67,47 @@ class RunCoachManager:
             )
             print(f"https://platform.openai.com/traces/trace?trace_id={trace_id}")
 
-            current_date = datetime.now().date().isoformat()
+        current_date = datetime.now().date().isoformat()
 
-            with trace("goal"):
-                self.printer.update_item("goal", "Parsing goal...")
-                goal_input = f"current_date: {current_date}\nuser_input: {goal_description}"
-                goal_result = await Runner.run(goal_agent, goal_input)
-                goal = goal_result.final_output_as(RaceGoal)
-                self.printer.update_item("goal", str(goal), is_done=True)
+        self.printer.update_item("goal", "Parsing goal...")
+        goal_input = f"current_date: {current_date}\nuser_input: {goal_description}"
+        goal_result = await Runner.run(goal_agent, goal_input)
+        goal = goal_result.final_output_as(RaceGoal)
+        self.printer.update_item("goal", str(goal), is_done=True)
 
-            with trace("collect"):
-                self.printer.update_item("collect", "Loading runs...")
-                collect_result = await Runner.run(collect_agent, "load")
-                runs = collect_result.final_output_as(RunData)
-                self.printer.update_item("collect", "Runs loaded", is_done=True)
+        self.printer.update_item("collect", "Loading runs...")
+        collect_result = await Runner.run(collect_agent, "load")
+        runs = collect_result.final_output_as(RunData)
+        self.printer.update_item("collect", "Runs loaded", is_done=True)
 
-            with trace("analyze"):
-                self.printer.update_item("analyze", "Analyzing runs...")
-                analyze_input = (
-                    f"Goal:\n{goal.model_dump_json()}\n\nRuns CSV:\n{runs.csv}"
-                )
-                analyze_result = await Runner.run(analyze_agent, analyze_input)
-                analysis = analyze_result.final_output_as(StatsAnalysis)
-                self.printer.update_item("analyze", "Analysis complete", is_done=True)
+        self.printer.update_item("analyze", "Analyzing runs...")
+        analyze_input = (
+            f"Goal:\n{goal.model_dump_json()}\n\nRuns CSV:\n{runs.csv}"
+        )
+        analyze_result = await Runner.run(analyze_agent, analyze_input)
+        analysis = analyze_result.final_output_as(StatsAnalysis)
+        self.printer.update_item("analyze", "Analysis complete", is_done=True)
 
-            with trace("plan"):
-                self.printer.update_item("plan", "Drafting plan...")
-                plan_input = (
-                    f"Goal:\n{goal.model_dump_json()}\n\nAnalysis:\n{analysis.analysis}"
-                )
-                plan_result = await Runner.run(plan_agent, plan_input)
-                plan = plan_result.final_output_as(RacePlan)
-                self.printer.update_item("plan", "Plan drafted", is_done=True)
+        self.printer.update_item("plan", "Drafting plan...")
+        plan_input = (
+            f"Goal:\n{goal.model_dump_json()}\n\nAnalysis:\n{analysis.analysis}"
+        )
+        plan_result = await Runner.run(plan_agent, plan_input)
+        plan = plan_result.final_output_as(RacePlan)
+        self.printer.update_item("plan", "Plan drafted", is_done=True)
 
-            with trace("check"):
-                self.printer.update_item("check", "Checking plan...")
-                check_result = await Runner.run(check_agent, plan.plan)
-                final_plan = check_result.final_output_as(RacePlan)
-                self.printer.update_item("check", "Plan checked", is_done=True)
+        self.printer.update_item("check", "Checking plan...")
+        check_result = await Runner.run(check_agent, plan.plan)
+        final_plan = check_result.final_output_as(RacePlan)
+        self.printer.update_item("check", "Plan checked", is_done=True)
 
-            self.printer.end()
-            return RunCoachPipelineOutput(
-                goal=goal,
-                runs=runs,
-                analysis=analysis,
-                plan=final_plan,
-            )
+        self.printer.end()
+        return RunCoachPipelineOutput(
+            goal=goal,
+            runs=runs,
+            analysis=analysis,
+            plan=final_plan,
+        )
 
 
 def visualize_workflow(filename: str | None = None):
