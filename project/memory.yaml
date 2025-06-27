@@ -96,3 +96,15 @@
   - sdk
   last_updated: '2025-06-27'
   pod_owner: DevPod
+- path: task_guides/task_108_mcp_filesystem_impact.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_108_mcp_filesystem_impact.md
+  file_type: md
+  description: Guide to refactor the ImpactAssessmentAgent to use the OpenAI MCP Filesystem
+    server for dynamic file access in PoC1.
+  tags:
+  - refactor
+  - agent
+  - mcp
+  - sdk
+  last_updated: '2025-06-27'
+  pod_owner: DevPod
