@@ -96,3 +96,14 @@
   task_id: task_108_mcp_fs_poc1
   committed_by: GPTPod
   message: Memory update related to task_guides/task_108_mcp_filesystem_impact.md
+- timestamp: '2025-06-27T03:21:52.118159'
+  path: task_guides/task_109_litellm_model_selection.md
+  task_id: task_109_litellm_provider
+  committed_by: GPTPod
+  message: 'Add Task 109: Enable dynamic model selection using LiteLLM-compatible
+    SDK integration across PoCs'
+- timestamp: '2025-06-27T03:21:52.118159'
+  path: project/memory.yaml
+  task_id: task_109_litellm_provider
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_109_litellm_model_selection.md
