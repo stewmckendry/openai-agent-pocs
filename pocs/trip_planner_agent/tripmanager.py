@@ -37,9 +37,13 @@ class TripPipelineOutput(BaseModel):
 class TripPlanningManager:
     """Sequentially execute the trip planning pipeline."""
 
-    def __init__(self) -> None:
+    def __init__(self, model=None) -> None:
         self.console = Console()
         self.printer = Printer(self.console)
+        self.model = model
+        if model is not None:
+            for agent in [topic_agent, research_agent, planner_agent, trip_planner_agent]:
+                agent.model = model
 
     async def run(self, goal: str) -> TripPipelineOutput:
         trace_id = gen_trace_id()

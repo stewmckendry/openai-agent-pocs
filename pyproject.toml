@@ -12,6 +12,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 openai-agents = {git = "https://github.com/stewmckendry/openai-agents-python.git", extras = ["viz"]}
+litellm = "*"
 
 [build-system]
 requires = ["poetry-core"]
