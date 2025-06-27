@@ -9,13 +9,19 @@ import asyncio
 from datetime import datetime
 from pathlib import Path
 
+from agents.exceptions import InputGuardrailTripwireTriggered
 from .runcoach import RunCoachManager, visualize_workflow
 
 
 async def main() -> None:
     goal = input("Describe your race goal: ")
     mgr = RunCoachManager()
-    result = await mgr.run(goal)
+    try:
+        result = await mgr.run(goal)
+    except InputGuardrailTripwireTriggered as exc:
+        info = exc.guardrail_result.output.output_info
+        print(f"\nInput rejected: {getattr(info, 'reason', '')}")
+        return
 
     print("\n--- Training Plan ---\n")
     print(result.plan.plan)

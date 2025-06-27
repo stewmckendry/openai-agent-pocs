@@ -3,6 +3,7 @@
 from pathlib import Path
 from pydantic import BaseModel
 from agents import Agent
+from .guardrails import vague_feature_guardrail
 
 
 class UXSpec(BaseModel):
@@ -22,4 +23,5 @@ ux_agent = Agent(
     name="UXAgent",
     instructions=_load_prompt(),
     output_type=UXSpec,
+    input_guardrails=[vague_feature_guardrail],
 )

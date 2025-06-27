@@ -12,6 +12,7 @@ from pathlib import Path
 from datetime import datetime
 
 from agents import gen_trace_id, trace
+from agents.exceptions import InputGuardrailTripwireTriggered
 from agents.mcp import MCPServerStdio
 
 from .deliverylead import DeliveryLeadManager, visualize_workflow
@@ -28,7 +29,12 @@ async def main() -> None:
         trace_id = gen_trace_id()
         with trace("user_story_poc", trace_id=trace_id):
             mgr = DeliveryLeadManager(server)
-            result = await mgr.run(feature)
+            try:
+                result = await mgr.run(feature)
+            except InputGuardrailTripwireTriggered as exc:
+                info = exc.guardrail_result.output.output_info
+                print(f"\nInput rejected: {getattr(info, 'reason', '')}")
+                return
             print(
                 "\nTrace:",
                 f"https://platform.openai.com/traces/trace?trace_id={trace_id}\n",
