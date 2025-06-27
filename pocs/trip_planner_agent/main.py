@@ -10,13 +10,27 @@ import asyncio
 from datetime import datetime
 from pathlib import Path
 
+from agents.exceptions import (
+    InputGuardrailTripwireTriggered,
+    OutputGuardrailTripwireTriggered,
+)
+
 from .tripmanager import TripPlanningManager, visualize_workflow
 
 
 async def main() -> None:
     goal = input("Describe your trip goals: ")
     mgr = TripPlanningManager()
-    result = await mgr.run(goal)
+    try:
+        result = await mgr.run(goal)
+    except InputGuardrailTripwireTriggered as exc:
+        info = exc.guardrail_result.output.output_info
+        print(f"\nInput rejected: {getattr(info, 'reason', '')}")
+        return
+    except OutputGuardrailTripwireTriggered as exc:
+        info = exc.guardrail_result.output.output_info
+        print(f"\nInvalid itinerary: {getattr(info, 'reason', '')}")
+        return
 
     print("\n--- Trip Itinerary ---\n")
     print(result.plan.response)
