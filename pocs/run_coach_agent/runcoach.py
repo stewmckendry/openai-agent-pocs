@@ -109,7 +109,6 @@ class RunCoachManager:
             plan=final_plan,
         )
 
-
 def visualize_workflow(filename: str | None = None):
     """Generate a graphviz visualization of the workflow."""
 
