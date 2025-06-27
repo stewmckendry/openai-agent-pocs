@@ -51,52 +51,77 @@ In the rest of this post, I’ll walk through **three working examples**, each t
 
 #### 🏅 Run Coach Agent: Train Smarter With Your Data
 
-Imagine this: you’ve been logging runs with your Garmin, and now you want to train for a sub-20 minute 5K in two months. You type:
+> "I want to run a marathon in less than 3 hours 5 minutes in my race coming up in October."
 
-> "Run a 4:00 per km pace 5K in 2 months."
+That’s the kind of input I gave the agent team, inspired by my real-life goal of qualifying for the Boston Marathon.
 
-Behind the scenes, the agent team kicks in:
+Behind the scenes, the agents got to work:
 
-1. **Goal Agent** parses your race target: distance, pace, and date.
-2. **Collect Agent** loads recent workouts from your `Activities.csv`.
-3. **Analyze Agent** identifies your training strengths and gaps.
-4. **Plan Agent** creates a week-by-week schedule tailored to your goal.
-5. **Check Agent** reviews the plan for safety, realism, and completeness.
+1. **Goal Agent** parsed my target pace and date—and even used a tool to retrieve the current date to get oriented (the model initially thought it was still 2023).
+2. **Collect Agent** loaded my recent workouts from `Activities.csv`, a file exported from Garmin Connect containing my running and cycling logs from the past month.
+3. **Analyze Agent** identified strengths and gaps in my training based on my workouts *and* my race goal.
+4. **Plan Agent** generated a full 8-week training schedule.
+5. **Check Agent** reviewed the plan for feasibility and risk.
 
-The result? A full 8-week training plan with long runs, speed work, hill repeats, and race taper guidance. All saved as Markdown, with a workflow diagram to show exactly how the plan was built.
+📝 [View README](https://github.com/stewmckendry/openai-agent-pocs/blob/main/pocs/run_coach_agent/README.md)
+📄 [View output plan](https://github.com/stewmckendry/openai-agent-pocs/blob/main/pocs/run_coach_agent/outputs/plan_20250627_105713.md)
+
+The result included long runs, speed intervals, hill workouts, and a structured taper—saved as Markdown, with a visual workflow diagram.
+
+Later, I re-ran the same input using Google’s Gemini model to get a "second opinion"—the output was nearly as strong, with a few different insights (minus a formatting hiccup):
+📄 [View Gemini version](https://github.com/stewmckendry/openai-agent-pocs/blob/main/pocs/run_coach_agent/outputs/plan_20250627_120310.md)
 
 Why it matters:
 
-* Makes coaching logic accessible to anyone.
-* Shows how agents can interpret personal data, reason across roles, and produce helpful, human-friendly outputs.
-* Designed with responsibility: guards against unrealistic inputs and prioritizes safe planning.
+* Makes coaching logic accessible to anyone with a goal and some data.
+* Demonstrates agents reasoning across personal data, tools, and structured planning.
+* Highlights the benefits of model-switching—getting multiple perspectives.
+
+🧠 **Reflection:**
+The analysis of my recent runs was surprisingly accurate. But the plan was *ambitious*—I wouldn’t feel ready to race 42K if my longest training run capped out at 26K! I’d want to embed domain knowledge from trusted coaching plans, or even better, personalize it with what’s worked for me in the past.
+
+You could imagine a next version of this agent acting as a **daily check-in coach**—adapting your plan based on recent runs, mood, recovery, or life schedule. We’re just getting started.
 
 #### ✈️ Trip Planner Agent: From Dream to Itinerary
 
-Prompt:
+> "My son and I want to go on a road trip to watch Sidney Crosby play in what might be his final year before retiring."
 
-> "I want to take my son on an NHL road trip next season."
+That’s the kind of dream Liam (my son) and I are chasing. We’ve started doing annual NHL or MLB road trips—last year we hit a Sabres game in Buffalo. This year, we want to see the Penguins.
 
-Sounds fun. But vague. Where? When? What games? What logistics?
+Here’s how the agent team helped:
 
-Here’s how the agent team handled it:
+1. **Topic Agent** generated specific topics to research—like the Penguins’ 2025 schedule, road trip routes between games, hotel options near NHL arenas, things to do in host cities, and where to buy tickets.
+2. **Research Agent** used a built-in web search tool (available out-of-the-box in the OpenAI Agents SDK) to gather and summarize useful links and insights.
+3. **Planner Agent** synthesized the research into a multi-city, 6-day road trip itinerary:
 
-1. **Topic Agent** extracted research goals: season start date, best cities, transport, family-friendly hotels, special NHL events.
-2. **Research Agent** searched the web for each topic and summarized the findings.
-3. **Planner Agent** wrote a day-by-day itinerary: Chicago to Toronto to Boston to Miami to Tampa to New York to Philly.
+* **Day 1**: Arrive in Pittsburgh, check in at Cambria Hotel Downtown, explore downtown and Point State Park.
+* **Day 2**: Visit the Andy Warhol Museum and attend a Penguins home game at PPG Paints Arena.
+* **Day 3**: Drive to Detroit (\~5 hours), stay at Marriott Renaissance Center, visit Detroit Institute of Arts.
+* **Day 4**: Visit Motown Museum and attend Penguins vs. Red Wings.
+* **Day 5**: Drive to Toronto (\~4 hours), stay at Fairmont Royal York, visit the CN Tower.
+* **Day 6**: Visit Royal Ontario Museum and attend Penguins vs. Maple Leafs.
+* **Day 7**: Stroll through High Park and head home.
 
-Each segment had:
-
-* Travel recommendations
-* Family-friendly hotels near arenas
-* Games to attend
-* Side activities like museums and markets
+📝 [View README](https://github.com/stewmckendry/openai-agent-pocs/blob/main/pocs/trip_planner_agent/README.md)
+📄 [View output plan](https://github.com/stewmckendry/openai-agent-pocs/blob/main/pocs/trip_planner_agent/outputs/trip_20250627_110149.md)
 
 Why it matters:
 
-* Turns vague intentions into structured, actionable plans.
-* Shows agents collaborating with real-time search and summarization.
-* Offers a glimpse into what agent-powered travel assistants could be.
+* Turns open-ended dreams into structured, bookable plans.
+* Showcases real-time research, summarization, and planning across multiple tools.
+* Demonstrates how agents can tailor plans to user interests, locations, and logistics.
+
+🧠 **Reflection:**
+The plan looks awesome—and Liam would love it! But attending three NHL games might stretch the budget, so next time I’d tune the prompt to include time and budget constraints.
+
+I also fact-checked it against the 2025–26 preseason schedule, and it mostly lined up. Interestingly, it swapped in a Leafs game for a Sabres one (it must know we’re Leafs fans).
+
+If I were refining this for real use, I’d:
+
+* Add a **sub-agent to verify** schedule accuracy and surface game dates.
+* Include agents that surface **travel advisories, vaccination requirements, and customs info**.
+
+Together, these would make the trip planner even more complete—and safer—for families like ours.
 
 #### 🛠️ User Story Agent: From Idea to Implementation
 
