@@ -107,3 +107,14 @@
   task_id: task_109_litellm_provider
   committed_by: GPTPod
   message: Memory update related to task_guides/task_109_litellm_model_selection.md
+- timestamp: '2025-06-27T04:09:24.480655'
+  path: task_guides/task_110_trace_unification.md
+  task_id: task_110_trace_grouping
+  committed_by: GPTPod
+  message: 'Add Task 110: Unify all agent traces under a single workflow trace_id
+    for grouped trace viewer support'
+- timestamp: '2025-06-27T04:09:24.480655'
+  path: project/memory.yaml
+  task_id: task_110_trace_grouping
+  committed_by: GPTPod
+  message: Memory update related to task_guides/task_110_trace_unification.md
