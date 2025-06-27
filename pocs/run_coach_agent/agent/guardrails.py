@@ -15,7 +15,7 @@ from agents import (
 
 
 def _load_prompt(filename: str) -> str:
-    path = Path(__file__).resolve().parents[3] / "prompts" / "guardrails" / filename
+    path = Path(__file__).resolve().parent.parent / "prompts" / filename
     with open(path, "r", encoding="utf-8") as f:
         lines = f.readlines()
     return "".join(lines[1:]).lstrip()
