@@ -61,26 +61,34 @@ async def main() -> None:
             output_dir.mkdir(exist_ok=True)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             story_file = output_dir / f"story_{timestamp}.md"
+            resource_dir = context_dir
+            resource_files = [str(p.relative_to(resource_dir)) for p in resource_dir.rglob("*") if p.is_file()]
             with open(story_file, "w", encoding="utf-8") as f:
-                f.write("# Feature Input\n")
+                f.write("## User:\n")
                 f.write(feature + "\n\n")
 
-                f.write("# User Story\n")
+                f.write("## Resources:\n")
+                for r in resource_files:
+                    f.write(f"- {r}\n")
+                f.write("\n")
+
+                f.write("## AI Agent:\n")
+                f.write("### User Story\n")
                 f.write(result.story.story + "\n\n")
 
-                f.write("# UX Spec\n")
+                f.write("### UX Spec\n")
                 f.write(result.ux.spec + "\n\n")
 
-                f.write("# Functional Spec\n")
+                f.write("### Functional Spec\n")
                 f.write(result.functional.spec + "\n\n")
 
-                f.write("# Technical Spec\n")
+                f.write("### Technical Spec\n")
                 f.write(result.technical.spec + "\n\n")
 
-                f.write("# Acceptance Criteria\n")
+                f.write("### Acceptance Criteria\n")
                 f.write(result.acceptance.criteria + "\n\n")
 
-                f.write("# Impact Assessment\n")
+                f.write("### Impact Assessment\n")
                 f.write(result.impact.summary + "\n")
 
             visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))

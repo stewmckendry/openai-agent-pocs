@@ -2,13 +2,14 @@
 from pathlib import Path
 from pydantic import BaseModel
 from agents import Agent
-from .guardrails import TripOutput, trip_quality_guardrail
+from .guardrails import trip_quality_guardrail
 
 
 class TripOutput(BaseModel):
     """Final travel plan response."""
 
-    response: str
+    summary: str
+    itinerary: str
 
 
 def _load_prompt() -> str:
