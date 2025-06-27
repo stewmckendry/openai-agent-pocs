@@ -11,7 +11,7 @@ from agents.extensions.visualization import draw_graph
 from .printer import Printer
 from .agent.topic_agent import ResearchPlan, topic_agent
 from .agent.research_agent import ResearchSummary, research_agent
-from .agent.planner_agent import TripPlan, planner_agent
+from .agent.planner_agent import TripOutput, planner_agent
 
 TRIP_PLANNER_PROMPT = (
     "You are a travel planner who coordinates topic generation, research, "
@@ -22,7 +22,7 @@ trip_planner_agent = Agent(
     name="TripPlannerAgent",
     instructions=TRIP_PLANNER_PROMPT,
     handoffs=[topic_agent, research_agent, planner_agent],
-    output_type=TripPlan,
+    output_type=TripOutput,
 )
 
 
@@ -31,7 +31,7 @@ class TripPipelineOutput(BaseModel):
 
     topics: ResearchPlan
     research: list[ResearchSummary]
-    plan: TripPlan
+    plan: TripOutput
 
 
 class TripPlanningManager:
@@ -79,7 +79,7 @@ class TripPlanningManager:
                     f"{[s.summary for s in research_summaries]}"
                 )
                 plan_result = await Runner.run(planner_agent, plan_input)
-                plan = plan_result.final_output_as(TripPlan)
+                plan = plan_result.final_output_as(TripOutput)
                 self.printer.update_item("plan", "Itinerary ready", is_done=True)
 
             self.printer.end()
