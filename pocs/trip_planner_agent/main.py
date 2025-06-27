@@ -19,6 +19,7 @@ from agents.exceptions import (
 
 from agents.extensions.models.litellm_model import LitellmModel
 from .tripmanager import TripPlanningManager, visualize_workflow
+from dotenv import load_dotenv
 
 
 async def main() -> None:
@@ -26,6 +27,8 @@ async def main() -> None:
     parser.add_argument("--model", type=str, help="Model to use (e.g. openai/gpt-4o)")
     parser.add_argument("--api-key", type=str, help="API key for the model")
     args = parser.parse_args()
+
+    load_dotenv()
 
     model_name = args.model if args.model else os.environ["MODEL"]
     api_key = args.api_key if args.api_key else os.environ["MODEL_API_KEY"]
