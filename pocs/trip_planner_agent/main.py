@@ -19,7 +19,7 @@ async def main() -> None:
     result = await mgr.run(goal)
 
     print("\n--- Trip Itinerary ---\n")
-    print(result.plan.itinerary)
+    print(result.plan.response)
 
     output_dir = Path(__file__).resolve().parent / "outputs"
     output_dir.mkdir(exist_ok=True)
@@ -39,7 +39,7 @@ async def main() -> None:
             f.write(r.summary + "\n\n")
 
         f.write("# Trip Plan\n")
-        f.write(result.plan.itinerary)
+        f.write(result.plan.response)
 
     visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
 
