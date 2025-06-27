@@ -43,14 +43,15 @@ class TripPlanningManager:
 
     async def run(self, goal: str) -> TripPipelineOutput:
         trace_id = gen_trace_id()
-        with trace("trip_planner_pipeline", trace_id=trace_id):
-            self.printer.update_item(
-                "trace_id",
-                f"View trace: https://platform.openai.com/traces/trace?trace_id={trace_id}",
-                is_done=True,
-                hide_checkmark=True,
-            )
-            print(f"https://platform.openai.com/traces/trace?trace_id={trace_id}")
+        try:
+            with trace("trip_planner_pipeline", trace_id=trace_id):
+                self.printer.update_item(
+                    "trace_id",
+                    f"View trace: https://platform.openai.com/traces/trace?trace_id={trace_id}",
+                    is_done=True,
+                    hide_checkmark=True,
+                )
+                print(f"https://platform.openai.com/traces/trace?trace_id={trace_id}")
 
             with trace("topics"):
                 self.printer.update_item("topics", "Creating research topics...")
@@ -82,8 +83,13 @@ class TripPlanningManager:
                 plan = plan_result.final_output_as(TripOutput)
                 self.printer.update_item("plan", "Itinerary ready", is_done=True)
 
+            return TripPipelineOutput(
+                topics=topics,
+                research=research_summaries,
+                plan=plan,
+            )
+        finally:
             self.printer.end()
-            return TripPipelineOutput(topics=topics, research=research_summaries, plan=plan)
 
 
 def visualize_workflow(filename: str | None = None):
