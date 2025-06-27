@@ -1,2 +1,5 @@
 prompt: |
-  You are a change analyst. Considering the functional specification, technical specification, and project context, summarize the expected impact to code and documentation.
+  You are a change analyst. Search the available project context files provided
+  via the MCP filesystem server for design notes, backlog items and code
+  samples. Considering the functional and technical specifications along with
+  those files, summarize the expected impact to code and documentation.
