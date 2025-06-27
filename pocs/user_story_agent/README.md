@@ -27,10 +27,23 @@ Progress for each stage is printed to the console so you can review the intermed
 - **Input:** a brief feature description and the technical architecture file in `resources/`
 - **Output:** the final user story printed to the console and saved under `outputs/` with a workflow image and all intermediate specs
 
+
 ## Future enhancements
 - Link directly to issue trackers for story creation
 - Add a persona repository for richer UX guidance
 - Provide optional code scaffolding based on the technical spec
+
+## Agents SDK Features
+
+| SDK Feature | Benefit to PoC |
+|-------------|----------------|
+| `Agent` and `handoffs` | Orchestrates UX, technical, acceptance and other specialist agents |
+| `Runner` | Executes each agent in sequence and collects results |
+| `MCPServer` | Supplies context files for impact assessment |
+| `input_guardrail` | Filters vague feature requests before processing |
+| `output_type` (Pydantic) | Structures the specs and final user story |
+| `trace` | Captures a trace of the workflow for debugging |
+| `visualization` | Produces a diagram of the agent flow |
 
 ## Running
 Install dependencies and run:
