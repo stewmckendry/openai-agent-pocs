@@ -20,7 +20,8 @@ from .agent.functional_agent import FunctionalSpec, functional_agent
 from .agent.technical_agent import TechnicalSpec, technical_agent
 from .agent.ux_agent import UXSpec, ux_agent
 from .agent.acceptance_agent import AcceptanceCriteria, acceptance_agent
-from .agent.impact_agent import ImpactSummary, impact_agent
+from agents.mcp import MCPServer
+from .agent.impact_agent import ImpactSummary, build_impact_agent
 from .agent.estimate_agent import StoryPointEstimate, estimate_agent
 from .agent.dor_verifier_agent import DoRCheck, dor_verifier_agent
 from .agent.user_story_writer import UserStory, user_story_writer_agent
@@ -35,6 +36,11 @@ DELIVERY_PROMPT = (
 
 
 # Agent object used only for workflow visualization
+_impact_placeholder = Agent(
+    name="ImpactAssessmentAgent",
+    instructions="Placeholder",
+)
+
 delivery_lead_agent = Agent(
     name="DeliveryLeadAgent",
     instructions=DELIVERY_PROMPT,
@@ -43,7 +49,7 @@ delivery_lead_agent = Agent(
         functional_agent,
         technical_agent,
         acceptance_agent,
-        impact_agent,
+        _impact_placeholder,
         estimate_agent,
         user_story_writer_agent,
         dor_verifier_agent,
@@ -68,10 +74,11 @@ class UserStoryPipelineOutput(BaseModel):
 class DeliveryLeadManager:
     """Orchestrates the sequential user story generation workflow."""
 
-    def __init__(self, max_dor_iterations: int = 5) -> None:
+    def __init__(self, mcp_server: MCPServer, max_dor_iterations: int = 5) -> None:
         self.console = Console()
         self.printer = Printer(self.console)
         self.max_dor_iterations = max_dor_iterations
+        self.mcp_server = mcp_server
 
     async def run(self, feature: str) -> UserStoryPipelineOutput:
         trace_id = gen_trace_id()
@@ -119,6 +126,7 @@ class DeliveryLeadManager:
                     f"Functional specification:\n{functional.spec}\n\n"
                     f"Technical specification:\n{technical.spec}"
                 )
+                impact_agent = build_impact_agent(self.mcp_server)
                 impact_result = await Runner.run(impact_agent, impact_input)
                 impact = impact_result.final_output_as(ImpactSummary)
                 self.printer.update_item("impact", impact.summary, is_done=True)

@@ -11,43 +11,59 @@ import asyncio
 from pathlib import Path
 from datetime import datetime
 
+from agents import gen_trace_id, trace
+from agents.mcp import MCPServerStdio
+
 from .deliverylead import DeliveryLeadManager, visualize_workflow
 
 
 async def main() -> None:
     feature = input("Enter a feature description: ")
-    mgr = DeliveryLeadManager()
-    result = await mgr.run(feature)
-    print("\n--- User Story ---\n")
-    print(result.story.story)
+    context_dir = Path(__file__).resolve().parent / "resources" / "context_files"
 
-    output_dir = Path(__file__).resolve().parent / "outputs"
-    output_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    story_file = output_dir / f"story_{timestamp}.md"
-    with open(story_file, "w", encoding="utf-8") as f:
-        f.write("# Feature Input\n")
-        f.write(feature + "\n\n")
+    async with MCPServerStdio(
+        name="Filesystem Server", 
+        params={"command": "npx", "args": ["-y", "@modelcontextprotocol/server-filesystem", str(context_dir)]},
+    ) as server:
+        trace_id = gen_trace_id()
+        with trace("user_story_poc", trace_id=trace_id):
+            mgr = DeliveryLeadManager(server)
+            result = await mgr.run(feature)
+            print(
+                "\nTrace:",
+                f"https://platform.openai.com/traces/trace?trace_id={trace_id}\n",
+            )
 
-        f.write("# User Story\n")
-        f.write(result.story.story + "\n\n")
+            print("\n--- User Story ---\n")
+            print(result.story.story)
 
-        f.write("# UX Spec\n")
-        f.write(result.ux.spec + "\n\n")
+            output_dir = Path(__file__).resolve().parent / "outputs"
+            output_dir.mkdir(exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            story_file = output_dir / f"story_{timestamp}.md"
+            with open(story_file, "w", encoding="utf-8") as f:
+                f.write("# Feature Input\n")
+                f.write(feature + "\n\n")
 
-        f.write("# Functional Spec\n")
-        f.write(result.functional.spec + "\n\n")
+                f.write("# User Story\n")
+                f.write(result.story.story + "\n\n")
 
-        f.write("# Technical Spec\n")
-        f.write(result.technical.spec + "\n\n")
+                f.write("# UX Spec\n")
+                f.write(result.ux.spec + "\n\n")
 
-        f.write("# Acceptance Criteria\n")
-        f.write(result.acceptance.criteria + "\n\n")
+                f.write("# Functional Spec\n")
+                f.write(result.functional.spec + "\n\n")
 
-        f.write("# Impact Assessment\n")
-        f.write(result.impact.summary + "\n")
+                f.write("# Technical Spec\n")
+                f.write(result.technical.spec + "\n\n")
 
-    visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
+                f.write("# Acceptance Criteria\n")
+                f.write(result.acceptance.criteria + "\n\n")
+
+                f.write("# Impact Assessment\n")
+                f.write(result.impact.summary + "\n")
+
+            visualize_workflow(filename=str(output_dir / f"workflow_{timestamp}.png"))
 
 
 if __name__ == "__main__":
