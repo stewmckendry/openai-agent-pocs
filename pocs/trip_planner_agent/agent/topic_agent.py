@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from pydantic import BaseModel
 from agents import Agent, function_tool
+from .guardrails import vague_trip_guardrail
 
 
 class ResearchTopic(BaseModel):
@@ -37,4 +38,5 @@ topic_agent = Agent(
     instructions=_load_prompt(),
     tools=[get_current_date],
     output_type=ResearchPlan,
+    input_guardrails=[vague_trip_guardrail],
 )

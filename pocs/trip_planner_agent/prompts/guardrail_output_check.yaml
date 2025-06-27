@@ -1,0 +1,3 @@
+prompt: |
+  Review the itinerary for specificity, realism, and safety. Confirm that it lists destinations, activities, transportation, and accommodations.
+  Respond in JSON with fields `flagged` (true if the plan is low quality or unsafe) and `reason` explaining your judgment.
