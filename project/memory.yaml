@@ -120,3 +120,15 @@
   - configuration
   last_updated: '2025-06-27'
   pod_owner: DeliveryPod
+- path: task_guides/task_110_trace_unification.md
+  raw_url: https://raw.githubusercontent.com/stewmckendry/openai-agent-pocs/main/task_guides/task_110_trace_unification.md
+  file_type: md
+  description: Guide to refactor agent pipelines to unify traces under a single trace
+    ID for improved observability and debugging.
+  tags:
+  - trace
+  - refactor
+  - pipeline
+  - observability
+  last_updated: '2025-06-27'
+  pod_owner: DevPod
