@@ -22,10 +22,24 @@ Progress is printed to the console so you can view topics, research summaries an
 - **Input:** a text description of your travel goals
 - **Output:** a markdown itinerary printed to the console and saved under `outputs/` along with a workflow image
 
+
 ## Future enhancements
 - Add budget estimates and restaurant recommendations
 - Integrate map links and calendar exports
 - Support alternate planning modes like backpacking or luxury travel
+
+## Agents SDK Features
+
+| SDK Feature | Benefit to PoC |
+|-------------|----------------|
+| `Agent` and `handoffs` | Chain topic, research and planner agents |
+| `Runner` | Executes each agent in sequence |
+| `WebSearchTool` | Gathers live results for each research topic |
+| `input_guardrail` & `output_guardrail` | Validates trip requests and itinerary quality |
+| `function_tool` | Provides helper functions such as getting the current date |
+| `output_type` (Pydantic) | Returns structured topics, research and plan |
+| `trace` | Records a trace for later review |
+| `visualization` | Generates a workflow diagram |
 
 ## Running
 Install dependencies then run:

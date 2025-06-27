@@ -24,10 +24,23 @@ Each stage prints progress to the console so you can see the goal, collected dat
 - **Input:** a text description of your race goal and the Garmin CSV located in `resources/Activities.csv`
 - **Output:** the final training plan in the console and a markdown file under `outputs/` along with a workflow image
 
+
 ## Future enhancements
 - Support other fitness data sources such as Strava
 - Add injury risk detection and calendar export
 - Offer multiple plan strategies based on user experience
+
+## Agents SDK Features
+
+| SDK Feature | Benefit to PoC |
+|-------------|----------------|
+| `Agent` and `handoffs` | Coordinate goal, data collection, analysis and planning agents |
+| `Runner` | Executes each agent in sequence and gathers results |
+| `input_guardrail` | Rejects unrealistic race requests before execution |
+| `function_tool` | Loads Garmin CSV with a built-in function call |
+| `output_type` (Pydantic) | Provides typed results for each pipeline stage |
+| `trace` | Saves a trace of the run for debugging |
+| `visualization` | Generates a graph of the workflow |
 
 ## Running
 Install dependencies then execute:
