@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from pydantic import BaseModel
 from agents import Agent, function_tool
+from .guardrails import race_goal_guardrail
 
 
 class RaceGoal(BaseModel):
@@ -34,4 +35,5 @@ goal_agent = Agent(
     instructions=_load_prompt(),
     tools=[get_current_date],
     output_type=RaceGoal,
+    input_guardrails=[race_goal_guardrail],
 )
